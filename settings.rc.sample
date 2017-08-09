@@ -59,6 +59,6 @@ export MAX_PODS=70
 # FQDN & IP to apiserver LB
 # Used for apiserver certificate generation
 # Must be same as CONTROLLER_ENDPOINT as this is SAN's that will be inserted into the APISERVER cert
-export APISERVER_LBFQDN=agi-cph-cluster01.int.agillic.eu
-export APISERVER_LBIP=10.1.201.100
+export APISERVER_LBFQDN=k8s-apilb.example.com
+export APISERVER_LBIP=10.0.0.100
 
