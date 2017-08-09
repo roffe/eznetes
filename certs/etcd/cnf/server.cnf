@@ -1,0 +1,14 @@
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+extendedKeyUsage = clientAuth, serverAuth
+keyUsage = digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $ENV::ETCD_HOSTNAME
+DNS.2 = $ENV::ETCD_FQDN
+IP.1 = 127.0.0.1
+IP.2 = $ENV::ETCD_IP

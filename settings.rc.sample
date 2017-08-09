@@ -1,0 +1,64 @@
+#!/bin/bash
+# Your cluster name. keep it short, will be used as prefix in some places.
+# Example: cluster01-cph
+export CLUSTER_NAME='cluster01'
+
+# Cluster token for ETCD
+export ETCD_CLUSTER_TOKEN='supersecrettoken!!1'
+
+# ETCD port to listen for clients
+export ETCD_CLIENT_PORT=2379
+
+# ETCD port to listen for peers
+export ETCD_PEER_PORT=2380
+
+# List of etcd servers (https://ip:port), comma separated
+export ETCD_ENDPOINTS=https://10.0.0.121:2379,https://10.0.0.122:2379,https://10.0.0.123:2379
+
+# The endpoint the worker node should use to contact controller nodes (https://ip:port)
+# In HA configurations this should be an external DNS record or loadbalancer in front of the control nodes.
+# However, it is also possible to point directly to a single control node.
+export CONTROLLER_ENDPOINT=https://k8s-apilb.example.com
+
+# Specify the version (vX.Y.Z) of Kubernetes assets to deploy
+export K8S_VER=v1.7.3
+
+# Hyperkube image repository to use.
+export HYPERKUBE_IMAGE_REPO=gcr.io/google_containers/hyperkube-amd64
+
+# The CIDR network to use for pod IPs.
+# Each pod launched in the cluster will be assigned an IP out of this range.
+# Each node will be configured such that these IPs will be routable using the flannel overlay network.
+export POD_NETWORK=10.1.0.0/16
+
+# The CIDR network to use for service cluster IPs.
+# Each service will be assigned a cluster IP out of this range.
+# This must not overlap with any IP ranges assigned to the POD_NETWORK, or other existing network infrastructure.
+# Routing to these IPs is handled by a proxy service local to each node, and are not required to be routable between nodes.
+export SERVICE_IP_RANGE=10.3.0.0/22
+
+# The IP address of the Kubernetes API Service
+# If the SERVICE_IP_RANGE is changed above, this must be set to the first IP in that range.
+export K8S_SERVICE_IP=10.3.0.1
+
+# The IP address of the cluster DNS service.
+# This IP must be in the range of the SERVICE_IP_RANGE and cannot be the first IP in the range.
+# This same IP must be configured on all worker nodes to enable DNS service discovery.
+export DNS_SERVICE_IP=10.3.0.10,10.3.0.11,10.3.0.12
+
+# Experimental. Not fully implemented
+# Whether to use Calico for Kubernetes network policy.
+export USE_CALICO=false
+
+# Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
+export CONTAINER_RUNTIME=docker
+
+# Number of Pods that can run on this Kubelet. (default 110)
+export MAX_PODS=70
+
+# FQDN & IP to apiserver LB
+# Used for apiserver certificate generation
+# Must be same as CONTROLLER_ENDPOINT as this is SAN's that will be inserted into the APISERVER cert
+export APISERVER_LBFQDN=agi-cph-cluster01.int.agillic.eu
+export APISERVER_LBIP=10.1.201.100
+
