@@ -1,5 +1,6 @@
 # Kubernetes the hard way, CoreOS edition by Joakim "Roffe" Karlsson
--> *WIP WIP WIP WIP WIP WIP* <-  
+
+_**-> WIP WIP WIP WIP WIP WIP <-**_
 
 This repo is not meant to be someones first shoot at Kubernetes, it's intended for power users who already has experience and want's to deploy Kubernetes as close to scratch as possible
 
