@@ -4,7 +4,7 @@ CoreOS edition by Joakim "Roffe" Karlsson
 
 _**-> WIP WIP WIP WIP WIP WIP <-**_
 
-This repo is not meant to be someones first shoot at Kubernetes, it's intended for power users who already has experience and want's to deploy Kubernetes as close to scratch as possible
+This repo is not meant to be someones first shoot at Kubernetes, it's intended for power users who already has experience and want's to deploy Kubernetes as close to "from scratch" as possible
 
 Original idea and alot of code inspiration / snippets comes from https://github.com/coreos/coreos-kubernetes and has thus inherited it's license
 
