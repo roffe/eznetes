@@ -32,7 +32,7 @@ Deployment of ETCD can be done in a "one-off" command or you can have `deploy.sh
 This tool provides no support for maintaining ETCD, how to upgrade it or how to debug.  
 Questions regarding ETCD should be directed to the authors or relevant support channels
 
-For the flannel bootstrap, master install to work this tool must have the ETCD client certs needed to connect to the ETCD cluster.
+For the flannel bootstrap & master install to work the ETCD client cert's must be present under `certs/etcd/client/client.pem & client-key.pem` and the root ca in `certs/ca/ca.pem & ca-key.pem`
 
 If you wish to manually deploy ETCD yourself it's recommended to have this script generate the certs and that you keep them in the original location so the deployment functions works as intended
 
@@ -78,7 +78,7 @@ Run the following command to create a cert with CN=admin O=system:master
 
 Files will be created in `certs/admin`
 
-The certs are then to be copied to your kubectl config folder and can be used to authenticate to the cluster.
+**The certs are then to be copied to your kubectl config folder and can be used to authenticate to the cluster.**
 
 ```yaml
 apiVersion: v1
@@ -108,7 +108,7 @@ For further instructions please see: https://kubernetes.io/docs/tasks/tools/inst
 Contains deployments for `heapster`, `kube-dns` & `kubernetes-dashboard`.
 
 `Kube-DNS` deployment differs from the standard way as it's deployed with 3 services and 3 replicas,
-then kublet flag `--cluster-dns` is given with 3 servers so musl & libc has multiple servers to use for resolv in case one has stopped working.
+then kublets is configured with 3 DNS servers in `--cluster-dns` for redundancy.
 
 ## Apiserver loadbalancer example
 #### Haproxy
