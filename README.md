@@ -53,6 +53,12 @@ The following command will create a ETCD client cert in the certs/etcd/client fo
 
 `./deploy.sh cert etcd-client`
 
+## Bootstrap flannel setings once
+
+Will set the podnetwork range for flannel in ETCD, See inc/flannel.sh
+
+`./deploy.sh bootstrap-flannel`
+
 ## Deploy K8S master
 
 Repeat for each master, additional masters can be added and removed at any point in time
