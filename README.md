@@ -31,7 +31,7 @@ For the flannel bootstrap, master install to work this tool must have the ETCD c
 
 If you wish to manually deploy ETCD yourself it's recommended to have this script generate the certs and that you keep them in the original location so the deployment functions works as intended
 
-### with deploy.sh
+#### with deploy.sh
 Repeat for each ETCD server.
 
 Upon deploy, server & peer certs will be created from CA.
@@ -40,12 +40,12 @@ Upon deploy, server & peer certs will be created from CA.
 
 **You must SSH to the node(s) and change `initial-cluster-state: 'new'`to `initial-cluster-state: 'existing'` in /etc/etcd/etcd.yaml once initial cluster state is reached and started for restarts of ETCD to work properly**
 
-### create ETCD server certificates
+#### create ETCD server certificates
 The following command will create a ETCD server & PEER cert in the certs/etcd/server folder
 
 `./deploy.sh cert etcd-server <ip> <fqdn>`
 
-### create ETCD client certificate
+#### create ETCD client certificate
 The following command will create a ETCD client cert in the certs/etcd/client folder
 
 `./deploy.sh cert etcd-client`
@@ -106,7 +106,7 @@ Contains deployments for heapster, kube-dns & kubernetes-dashboard. The imho mos
 then Cluster DNS is given with 4 servers so musl & libc has multiple servers to use for resolv in case one has stopped working.
 
 ## Apiserver loadbalancer example
-### Haproxy
+#### Haproxy
 
 ```text
 global
