@@ -1,23 +1,19 @@
 #!/bin/bash
 function init_flannel {
-    echo "Waiting for etcd..."
-    while true
-    do
-        IFS=',' read -ra ES <<< "$ETCD_ENDPOINTS"
-        for ETCD in "${ES[@]}"; do
-            echo "Trying: $ETCD"
-            if [ -n "$(sudo curl --cacert /etc/kubernetes/ssl/ca.pem --cert /etc/ssl/etcd/client.pem --key /etc/ssl/etcd/client-key.pem --silent "$ETCD/v2/machines")" ]; then
-                local ACTIVE_ETCD=$ETCD
-                break
-            fi
-            sleep 1
-        done
-        if [ -n "$ACTIVE_ETCD" ]; then
-            break
+    if which etcdctl >/dev/null; then
+        echo "Setting Flannel settings in ETCD"
+        echo "ETCD Endpoints: ${ETCD_ENDPOINTS}"
+        echo "POD Network: ${POD_NETWORK}"
+        local F_SETTINGS="{\"Network\":\"${POD_NETWORK}\",\"Backend\":{\"Type\":\"vxlan\"}}"
+        ETCDCTL_API=2 etcdctl --ca-file certs/ca/ca.pem --key-file certs/etcd/client/client-key.pem --cert-file certs/etcd/client/client.pem --endpoints "${ETCD_ENDPOINTS}" set coreos.com/network/config "${F_SETTINGS}" > /dev/null
+        if [ $? -eq 0 ]; then
+            echo "Success setting Flannel settings:"
+            echo "${F_SETTINGS}"
+        else
+            echo "Error setting Flannel settings"
         fi
-    done
-    RES=$(sudo curl --cacert /etc/kubernetes/ssl/ca.pem --cert /etc/ssl/etcd/client.pem --key /etc/ssl/etcd/client-key.pem --silent -X PUT -d "value={\"Network\":\"$POD_NETWORK\",\"Backend\":{\"Type\":\"vxlan\"}}" "$ACTIVE_ETCD/v2/keys/coreos.com/network/config?prevExist=false")
-    if [ -z "$(echo $RES | grep '"action":"create"')" ] && [ -z "$(echo $RES | grep 'Key already exists')" ]; then
-        echo "Unexpected error configuring flannel pod network: $RES"
+    else
+        echo "etcdctl missing, you need to install it for your current OS"
+        echo "https://github.com/coreos/etcd/releases/"
     fi
 }

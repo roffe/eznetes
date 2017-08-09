@@ -21,6 +21,9 @@ source inc/package.sh
 # Load deployment related functions
 source inc/deploy.sh
 
+# Load flannel related functions
+source inc/flannel.sh
+
 function check_ca_exist() {
 	if [[ ! -f certs/ca/ca.pem ]] || [[ ! -f certs/ca/ca-key.pem ]]; then
 		echo "Missing ca.pem or ca-key.pem, Please run: ${0} create-ca"
