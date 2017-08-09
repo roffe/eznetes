@@ -1,4 +1,6 @@
-# Kubernetes the hard way, CoreOS edition by Joakim "Roffe" Karlsson
+# Kubernetes the hard way
+
+## CoreOS edition by Joakim "Roffe" Karlsson
 
 _**-> WIP WIP WIP WIP WIP WIP <-**_
 
