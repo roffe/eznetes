@@ -17,7 +17,8 @@ Pullrequests & ideas is always welcome!
 ## Todo
 
 * Better documentation
-* Bootstrap to create initial services from manifest folder
+* Video guide & presentation
+* More testing in the wild
 ...
 
 ## Prerequisites
