@@ -18,10 +18,9 @@ function init_flannel {
     fi
 }
 
+# Start a insecure apiserver locally that we will use to add out first services & addons to kubernetes.
 function init_k8s {
     create_apiserver_cert "127.0.0.1" "localhost"
-    
-    # Start a insecure apiserver locally that we will use to add out first services & addons to kubernetes.
     echo "Starting local apiserver"
     docker run --rm -d --name k8s-bootstrap \
     -p 8080:8080 \
@@ -57,8 +56,7 @@ function init_k8s {
     echo "Installing Kube-DNS"
     docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns
     echo "Installing Heapster"
-    docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/heapster
-    
+    docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/heapster  
     echo "Installing Kubernetes-dashboard"
     docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kubernetes-dashboard
 

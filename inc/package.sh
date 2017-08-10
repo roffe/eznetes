@@ -17,7 +17,7 @@ function build_package() {
 		;;
 		
 		master_deploy)
-			echo -n "Building master package"
+			echo "Building master package"
 			mkdir -p ${TMPDIR}/ssl
 			cp certs/ca/ca.pem ${TMPDIR}/ssl/
 			cp certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
@@ -48,7 +48,7 @@ function build_package() {
 }
 
 function build_package_addsettings() {
-			echo "Adding nodes pecific settings"
+			echo "Adding node specific settings"
 			echo "export ADVERTISE_IP=${1}" >> ${TMPDIR}/settings.rc
 			echo "export NODE_HOSTNAME=${NODE_HOSTNAME}" >> ${TMPDIR}/settings.rc
 }

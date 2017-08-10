@@ -95,7 +95,7 @@ case "${1}" in
 		init_flannel
 	;;
 	
-	bootstrap-k8s)
+	install-addons)
 		init_k8s
 	;;
 	etcd)

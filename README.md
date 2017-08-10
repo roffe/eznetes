@@ -27,7 +27,18 @@ Pullrequests & ideas is always welcome!
 * 1, 3 or 5 CoreOS machines for ETCD (A very basic one-time bootstrap is offered by this repo)
 * N+1 CoreOS machines for K8S masters
 * N CoreOS Machines for K8S workers
-* Copy settings.rc.sample to settings.rc and fill with your values
+
+## Deploy instructions
+
+* Copy settings.rc.sample to settings.rc and propagate with settings
+* Create VM's / Install Physichal machines
+* Install CoreOS & configure basic node networking
+* Deploy ETCD (`./deploy.sh etcd <ip> <fqdn>`)
+* Init Flannel settings (`./deploy.sh bootstrap-flannel`)
+* Deploy Masters (`./deploy.sh master <ip> <fqdn>`)
+* Deploy Workers (`./deploy.sh worker <ip> <fqdn>`)
+* Install addons (`./deploy.sh install-addons`)
+
 
 ## Create root CA
 
