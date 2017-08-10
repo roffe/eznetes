@@ -21,8 +21,8 @@ source inc/package.sh
 # Load deployment related functions
 source inc/deploy.sh
 
-# Load flannel related functions
-source inc/flannel.sh
+# Load init related functions
+source inc/init.sh
 
 function check_ca_exist() {
 	if [[ ! -f certs/ca/ca.pem ]] || [[ ! -f certs/ca/ca-key.pem ]]; then
@@ -89,15 +89,18 @@ fi
 case "${1}" in
 	bootstrap-flannel)
 		init_flannel
-		;;
+	;;
 	
+	bootstrap-k8s)
+		init_k8s
+	;;
 	etcd)
 		if [[ ! -z ${2} ]] && [[ ! -z ${3} ]]; then
 			etcd_deploy ${2} ${3}
 		else
 			usage $0 $1
 		fi
-		;;
+	;;
 	
 	master)
         if [[ ! -z ${2} ]] && [[ ! -z ${3} ]]; then
@@ -105,7 +108,7 @@ case "${1}" in
 		else
 			usage $0 $1
 		fi
-        ;;
+    ;;
     
 	worker)
         if [[ ! -z ${2} ]] && [[ ! -z ${3} ]]; then
@@ -113,11 +116,11 @@ case "${1}" in
         else
 			usage $1
 		fi
-		;;
+	;;
 	
 	create-ca)
 		create_ca
-		;;
+	;;
 	
 	cert)
 		case "${2}" in
