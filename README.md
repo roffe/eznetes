@@ -86,15 +86,19 @@ Will set the podnetwork range for flannel in ETCD, See `inc/flannel.sh`
 
 ## Deploy K8S master
 
-Repeat for each master, additional masters can be added and removed at any point in time
+Repeat for each master, additional masters can be added and removed at any point in time.
+
+A master node consists of: OS, Docker, Flannel, Kubelet, kube-proxy, kube-apiserver, kube-controller-manager & kube-scheduler.
 
 `./deploy master <ip>  <fqdn or hostname>`
 
 ## Deploy K8S worker
 
-Repeat for each worker, additional workers can be added and removed at any point in time
+Repeat for each worker, additional workers can be added and removed at any point in time.
 
-`./deploy master <ip>  <fqdn or hostname>`
+A worker node consists of: OS, Docker, Flannel, Kubelet & kube-proxy.
+
+`./deploy worker <ip>  <fqdn or hostname>`
 
 ## Create admin cert ( to use with kubectl )
 
@@ -105,6 +109,8 @@ Run the following command to create a cert with CN=admin O=system:master
 Files will be created in `certs/admin`
 
 **The certs are then to be copied to your kubectl config folder and can be used to authenticate to the cluster.**
+
+Below is a sample of how a kubectl config can look for your cluster. Typically it's placed on ~/.kube/config
 
 ```yaml
 apiVersion: v1
