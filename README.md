@@ -8,7 +8,7 @@ This repo is not meant to be someones first shoot at Kubernetes, it's intended f
 
 The goal of this project is to provide all the manuall steps needed to start a kubernetes cluster in a semi automated fashion.
 
-*All code shall to furthest extent possible be kept in SHELLSCRIPT & YAML for maximal readability by as many people as possible!*
+_*I pledge to the furthest extent possible to keep all code & manifest in SHELLSCRIPT & YAML for maximal readability by as many people as possible*_
 
 Original idea and alot of code inspiration / snippets comes from https://github.com/coreos/coreos-kubernetes and has thus inherited it's license
 
@@ -38,7 +38,6 @@ Pullrequests & ideas is always welcome!
 * Deploy Masters (`./deploy.sh master <ip> <fqdn>`)
 * Deploy Workers (`./deploy.sh worker <ip> <fqdn>`)
 * Install addons (`./deploy.sh install-addons`)
-
 
 ## Create root CA
 
