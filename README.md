@@ -19,7 +19,12 @@ Pullrequests & ideas is always welcome!
 * Better documentation
 * Video guide & presentation
 * More testing in the wild
-...
+* Template Kube-DNS addon to obeys `SERVICE_IP_RANGE`
+
+## Known limitations
+If you change the `SERVICE_IP_RANGE` be sure to update the `K8S_SERVICE_IP` & `DNS_SERVICE_IP` in settings.rc,
+
+Also the templates in `manifests/` will need to be manualy patched at this moment when changing service CIDR
 
 ## Prerequisites
 
@@ -29,7 +34,7 @@ Pullrequests & ideas is always welcome!
 * N+1 CoreOS machines for K8S masters
 * N CoreOS Machines for K8S workers
 
-## Deploy instructions
+## Deploy steps
 
 * Copy settings.rc.sample to settings.rc and propagate with settings
 * Create VM's / Install Physichal machines
@@ -38,7 +43,8 @@ Pullrequests & ideas is always welcome!
 * Init Flannel settings (`./deploy.sh bootstrap-flannel`)
 * Deploy Masters (`./deploy.sh master <ip> <fqdn>`)
 * Deploy Workers (`./deploy.sh worker <ip> <fqdn>`)
-* Install addons (`./deploy.sh install-addons`)
+* Install addons from manifest folder (`./deploy.sh install-addons`)
+* Configure kubectl
 
 ## Create root CA
 

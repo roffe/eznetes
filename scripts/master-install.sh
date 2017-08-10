@@ -384,6 +384,7 @@ spec:
     - --master=https://127.0.0.1
     - --leader-elect=true
     - --service-account-private-key-file=/etc/kubernetes/ssl/controller-key.pem
+    - --use-service-account-credentials
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
     - --node-monitor-period=2s
     - --node-monitor-grace-period=16s
