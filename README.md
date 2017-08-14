@@ -26,7 +26,7 @@ If you change the `SERVICE_IP_RANGE` be sure to update the `K8S_SERVICE_IP` & `D
 
 Also the templates in `manifests/` will need to be manualy patched at this moment when changing service CIDR
 
-## Prerequisites
+## Before you begin
 
 * Working network where all the nodes can talk to each other directly
 * Loadbalancer for apiserver(s)(Out of this docs scope, but a small example haproxy is provided below)
@@ -34,11 +34,11 @@ Also the templates in `manifests/` will need to be manualy patched at this momen
 * N+1 CoreOS machines for K8S masters
 * N CoreOS Machines for K8S workers
 
-## Deploy steps
+## Instructions
 
 * Copy settings.rc.sample to settings.rc and propagate with settings
 * Create VM's / Install Physichal machines
-* Install CoreOS & configure basic node networking
+* Install CoreOS & configure basic networking between all the nodes
 * Deploy ETCD (`./deploy.sh etcd <ip> <fqdn>`)
 * Init Flannel settings (`./deploy.sh bootstrap-flannel`)
 * Deploy Masters (`./deploy.sh master <ip> <fqdn>`)

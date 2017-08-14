@@ -360,6 +360,7 @@ spec:
     - proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --cluster-cidr=${POD_NETWORK}
+    - --hostname-override=${ADVERTISE_IP}
     - --kubeconfig=/etc/kubernetes/proxy-kubeconfig.yaml
     securityContext:
       privileged: true

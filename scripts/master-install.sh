@@ -207,6 +207,7 @@ spec:
     - proxy
     - --master=https://127.0.0.1
     - --cluster-cidr=${POD_NETWORK}
+    - --hostname-override=${ADVERTISE_IP}
     - --kubeconfig=/etc/kubernetes/proxy-kubeconfig.yaml
     securityContext:
       privileged: true
