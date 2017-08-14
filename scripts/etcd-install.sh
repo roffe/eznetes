@@ -83,5 +83,5 @@ systemctl enable flanneld; systemctl restart flanneld
 echo "Restarting Kubelet"
 systemctl enable kubelet; systemctl restart kubelet
 
-echo "**You must SSH to the node(s) and change `initial-cluster-state: 'new'` to `initial-cluster-state: 'existing'` in `/etc/etcd/etcd.yaml` once initial cluster state is reached for restarts of ETCD to work properly**"
+echo "**You must SSH to the node(s) and change initial-cluster-state: 'new' to initial-cluster-state: 'existing' in /etc/etcd/etcd.yaml once initial cluster state is reached for restarts of ETCD to work properly**"
 echo "DONE"
