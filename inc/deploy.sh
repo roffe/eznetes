@@ -10,7 +10,7 @@ function master_deploy() {
 	build_package ${FUNCNAME} ${1} ${2}
 	echo "Deploying master on ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
-	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz"'
+	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz inc"'
 }
 
 function worker_deploy() {
@@ -23,7 +23,7 @@ function worker_deploy() {
 	build_package ${FUNCNAME} ${1} ${2}
 	echo "Deploying worker on: ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
-	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz"'
+	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz inc"'
 }
 
 function etcd_deploy() {
@@ -35,5 +35,5 @@ function etcd_deploy() {
     build_package ${FUNCNAME} ${1} ${2}
     echo "Deploying etcd on: ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
-	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz"'
+	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz inc"'
 }

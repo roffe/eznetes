@@ -11,6 +11,7 @@ function build_package() {
 			cp certs/etcd/server/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/etcd
 			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
 			cp scripts/etcd-install.sh ${TMPDIR}/install.sh
+			cp -rv scripts/inc ${TMPDIR}
 			cp settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .
@@ -27,6 +28,7 @@ function build_package() {
 			cp certs/scheduler/scheduler*.pem ${TMPDIR}/ssl/
 			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
 			cp scripts/master-install.sh ${TMPDIR}/install.sh
+			cp -rv scripts/inc ${TMPDIR}
 			cp settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .
@@ -40,6 +42,7 @@ function build_package() {
 			cp certs/proxy/proxy*.pem ${TMPDIR}/ssl/
 			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
 			cp scripts/worker-install.sh ${TMPDIR}/install.sh
+			cp -rv scripts/inc ${TMPDIR}
 			cp settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .

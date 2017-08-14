@@ -316,6 +316,46 @@ current-context: kubelet-context
 EOF
 
 
+# Start kube-proxy
+
+    local TEMPLATE=/etc/kubernetes/kube-proxy.yaml
+        echo "TEMPLATE: $TEMPLATE"
+        mkdir -p $(dirname $TEMPLATE)
+        cat << EOF > $TEMPLATE
+apiVersion: componentconfig/v1alpha1
+bindAddress: 0.0.0.0
+clientConnection:
+  acceptContentTypes: ""
+  burst: 10
+  contentType: application/vnd.kubernetes.protobuf
+  kubeconfig: "/etc/kubernetes/proxy-kubeconfig.yaml"
+  qps: 5
+clusterCIDR: "${POD_NETWORK}"
+configSyncPeriod: 15m0s
+conntrack:
+  max: 0
+  maxPerCore: 32768
+  min: 131072
+  tcpCloseWaitTimeout: 1h0m0s
+  tcpEstablishedTimeout: 24h0m0s
+enableProfiling: false
+featureGates: ""
+healthzBindAddress: 0.0.0.0:10256
+hostnameOverride: "${ADVERTISE_IP}"
+iptables:
+  masqueradeAll: false
+  masqueradeBit: 14
+  minSyncPeriod: 0s
+  syncPeriod: 30s
+kind: KubeProxyConfiguration
+metricsBindAddress: 127.0.0.1:10249
+mode: ""
+oomScoreAdj: -999
+portRange: ""
+resourceContainer: /kube-proxy
+udpTimeoutMilliseconds: 250ms
+EOF
+
     local TEMPLATE=/etc/kubernetes/proxy-kubeconfig.yaml
         echo "TEMPLATE: $TEMPLATE"
         mkdir -p $(dirname $TEMPLATE)
@@ -359,9 +399,7 @@ spec:
     - /hyperkube
     - proxy
     - --master=${CONTROLLER_ENDPOINT}
-    - --cluster-cidr=${POD_NETWORK}
-    - --hostname-override=${ADVERTISE_IP}
-    - --kubeconfig=/etc/kubernetes/proxy-kubeconfig.yaml
+    - --config=/etc/kubernetes/kube-proxy.yaml
     securityContext:
       privileged: true
     livenessProbe:
@@ -377,6 +415,9 @@ spec:
     - mountPath: /etc/kubernetes/proxy-kubeconfig.yaml
       name: "kubeconfig"
       readOnly: true
+    - mountPath: /etc/kubernetes/kube-proxy.yaml
+      name: "kube-proxy-cfg"
+      readOnly: true
     - mountPath: /etc/kubernetes/ssl
       name: "etc-kube-ssl"
       readOnly: true
@@ -390,6 +431,9 @@ spec:
   - name: "kubeconfig"
     hostPath:
       path: "/etc/kubernetes/proxy-kubeconfig.yaml"
+  - name: "kube-proxy-cfg"
+    hostPath:
+      path: "/etc/kubernetes/kube-proxy.yaml"
   - name: "etc-kube-ssl"
     hostPath:
       path: "/etc/kubernetes/ssl"
@@ -397,6 +441,8 @@ spec:
       path: /var/run/dbus
     name: dbus
 EOF
+
+# End kube-proxy
 
     local TEMPLATE=/etc/flannel/options.env
         echo "TEMPLATE: $TEMPLATE"

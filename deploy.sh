@@ -24,6 +24,21 @@ source inc/deploy.sh
 # Load init related functions
 source inc/init.sh
 
+function batch_run() {
+	if [ -f hosts.rc ]; then
+		OLDIFS=$IFS
+		IFS=$'\n'
+		for LINE in `egrep -v '^#|^$' hosts.rc`;
+		do
+    		echo $LINE | xargs -L 1 ./deploy.sh
+		done
+		IFS=$OLDIFS
+	else
+		echo "No file hosts.rc"
+	fi
+}
+
+
 function check_ca_exist() {
 	if [[ ! -f certs/ca/ca.pem ]] || [[ ! -f certs/ca/ca-key.pem ]]; then
 		echo "Missing ca.pem or ca-key.pem, Please run: ${0} create-ca"
@@ -94,10 +109,15 @@ case "${1}" in
 	bootstrap-flannel)
 		init_flannel
 	;;
-	
+
+	batch-run)
+		batch_run
+	;;
+
 	install-addons)
 		init_k8s
 	;;
+
 	etcd)
 		if [[ ! -z ${2} ]] && [[ ! -z ${3} ]]; then
 			etcd_deploy ${2} ${3}
@@ -131,27 +151,35 @@ case "${1}" in
 			admin)
 				create_admin_cert
 			;;
+
 			ca)
 				create_ca_cert
 			;;
+
 			etcd-server)
 				create_etcd_server_cert ${3} ${4}
 			;;
+
 			etcd-client)
 				create_etcd_client_cert
 			;;
+
 			kube-controller-manager)
 				create_controller_cert
 			;;
+
 			kube-apiserver)
 				create_apiserver_cert ${3} ${4}
 			;;
+
 			kube-proxy)
 				create_proxy_cert
 			;;
+
 			kube-scheduler)
 				create_scheduler_cert
 			;;
+
 			*)
 			usage ${1}
 		esac
