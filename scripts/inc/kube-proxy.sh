@@ -38,10 +38,10 @@ resourceContainer: /kube-proxy
 udpTimeoutMilliseconds: 250ms
 EOF
 
- local TEMPLATE=/etc/kubernetes/proxy-kubeconfig.yaml
- echo "TEMPLATE: $TEMPLATE"
- mkdir -p $(dirname $TEMPLATE)
- cat << EOF > $TEMPLATE
+local TEMPLATE=/etc/kubernetes/proxy-kubeconfig.yaml
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat << EOF > $TEMPLATE
 apiVersion: v1
 kind: Config
 clusters:
