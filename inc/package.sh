@@ -5,14 +5,14 @@ function build_package() {
 		etcd_deploy)
 			echo "Building ETCD package"
 			mkdir -p ${TMPDIR}/ssl/etcd
-			cp certs/ca/ca.pem ${TMPDIR}/ssl/
-			cp certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
-			cp certs/proxy/proxy*.pem ${TMPDIR}/ssl/
-			cp certs/etcd/server/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/etcd
-			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
-			cp scripts/etcd-install.sh ${TMPDIR}/install.sh
+			cp -v certs/ca/ca.pem ${TMPDIR}/ssl/
+			cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
+			cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
+			cp -v certs/etcd/server/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/etcd
+			cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
+			cp -v scripts/etcd-install.sh ${TMPDIR}/install.sh
 			cp -rv scripts/inc ${TMPDIR}
-			cp settings.rc ${TMPDIR}/
+			cp -v settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .
 		;;
@@ -20,16 +20,16 @@ function build_package() {
 		master_deploy)
 			echo "Building master package"
 			mkdir -p ${TMPDIR}/ssl
-			cp certs/ca/ca.pem ${TMPDIR}/ssl/
-			cp certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
-			cp certs/proxy/proxy*.pem ${TMPDIR}/ssl/
-			cp certs/apiserver/certs/apiserver-${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
-			cp certs/controller/controller*.pem ${TMPDIR}/ssl/
-			cp certs/scheduler/scheduler*.pem ${TMPDIR}/ssl/
-			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
-			cp scripts/master-install.sh ${TMPDIR}/install.sh
+			cp -v certs/ca/ca.pem ${TMPDIR}/ssl/
+			cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
+			cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
+			cp -v certs/apiserver/certs/apiserver-${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
+			cp -v certs/controller/controller*.pem ${TMPDIR}/ssl/
+			cp -v certs/scheduler/scheduler*.pem ${TMPDIR}/ssl/
+			cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
+			cp -v scripts/master-install.sh ${TMPDIR}/install.sh
 			cp -rv scripts/inc ${TMPDIR}
-			cp settings.rc ${TMPDIR}/
+			cp -v settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .
 		;;
@@ -37,13 +37,13 @@ function build_package() {
 		worker_deploy)
 			echo "Building worker package"
 			mkdir -p ${TMPDIR}/ssl
-			cp certs/ca/ca.pem ${TMPDIR}/ssl/
-			cp certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
-			cp certs/proxy/proxy*.pem ${TMPDIR}/ssl/
-			cp certs/etcd/client/client*.pem ${TMPDIR}/ssl/
-			cp scripts/worker-install.sh ${TMPDIR}/install.sh
+			cp -v certs/ca/ca.pem ${TMPDIR}/ssl/
+			cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
+			cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
+			cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
+			cp -v scripts/worker-install.sh ${TMPDIR}/install.sh
 			cp -rv scripts/inc ${TMPDIR}
-			cp settings.rc ${TMPDIR}/
+			cp -v settings.rc ${TMPDIR}/
 			build_package_addsettings ${2} ${NODE_HOSTNAME}
 			tar czf deploy.tgz -C ${TMPDIR} .
 		;;

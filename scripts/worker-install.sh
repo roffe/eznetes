@@ -46,24 +46,12 @@ function init_config {
 }
 
 function init_templates {
-    
-echo "Installing Templates"
-
-# Setup Docker
-source inc/docker.sh
-
-# Setup RKT
-source inc/rkt.sh
-
-# Setup kubelet
-source inc/kubelet-worker.sh
-
-# kube-proxy setup
-source inc/kube-proxy.sh
-
-# Flannel setup
-source inc/flannel.sh
-
+    echo "Installing Templates"
+    source inc/docker.sh
+    source inc/rkt.sh
+    source inc/kubelet-worker.sh
+    source inc/kube-proxy.sh
+    source inc/flannel.sh
 }
 
 init_config
