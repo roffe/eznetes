@@ -1,4 +1,4 @@
-# Kubernetes the hard way
+# Kubernetes the semi-hard way
 
 CoreOS edition by Joakim "Roffe" Karlsson
 
