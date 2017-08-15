@@ -25,7 +25,7 @@ Pullrequests & ideas is always welcome!
 * Better documentation
 * Video guide & presentation
 * More testing in the wild
-* Template Kube-DNS addon to obeys `SERVICE_IP_RANGE`
+* Template Kube-DNS addon to obeys `SERVICE_IP_RANGE` & `CLUSTER_DOMAIN`
 
 ## Known limitations
 If you change the `SERVICE_IP_RANGE` be sure to update the `K8S_SERVICE_IP` & `DNS_SERVICE_IP` in settings.rc,
