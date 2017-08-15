@@ -4,13 +4,19 @@ CoreOS edition by Joakim "Roffe" Karlsson
 
 _**-> WIP WIP WIP WIP WIP WIP <-**_
 
-This repo is not meant to be someones first shoot at Kubernetes, it's intended for power users who already has experience and want's to deploy Kubernetes as close to "from scratch" as possible.
+This repo is not meant to be someones first shoot at Kubernetes, it's intended for power users who already has experience and want's to deploy Kubernetes "from scratch".
 
 The goal of this project is to provide all the manuall steps needed to start a kubernetes cluster in a semi automated fashion.
 
 _*I pledge to the furthest extent possible to keep all code & manifest in SHELLSCRIPT & YAML for maximal readability by as many people as possible*_
 
-Original idea and alot of code inspiration / snippets comes from https://github.com/coreos/coreos-kubernetes and has thus inherited it's license
+Original idea and alot of code inspiration / snippets comes from:
+
+https://github.com/coreos/coreos-kubernetes
+
+https://coreos.com/kubernetes/docs/latest/kubernetes-on-generic-platforms.html
+
+and has thus inherited it's license
 
 Pullrequests & ideas is always welcome!
 
