@@ -1,4 +1,13 @@
 #!/bin/bash
+
+# The internal cluster domain.
+# If you are changing this don't forgett to update:
+# certs/apiserver/cnf/apiserver.cnf
+# manifests/kube-dns/deployment.yaml
+#
+# Default: cluster.local
+export CLUSTER_DOMAIN=cluster.local
+
 # Your cluster name. keep it short, will be used as prefix in some places.
 # Example: cluster01-cph
 export CLUSTER_NAME='cluster01'

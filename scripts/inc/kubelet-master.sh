@@ -64,7 +64,7 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --pod-manifest-path=/etc/kubernetes/manifests \
   --hostname-override=${ADVERTISE_IP} \
   --cluster-dns=${DNS_SERVICE_IP} \
-  --cluster-domain=cluster.local \
+  --cluster-domain=${CLUSTER_DOMAIN} \
   --kubeconfig=/etc/kubernetes/master-kubeconfig.yaml
 ExecStop=-/usr/bin/rkt stop --uuid-file=${uuid_file}
 Restart=always
