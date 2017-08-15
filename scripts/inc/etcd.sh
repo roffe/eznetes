@@ -3,7 +3,7 @@
 local TEMPLATE=/etc/kubernetes/manifests/kube-etcd.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: v1
 kind: Pod
 metadata:
@@ -68,12 +68,10 @@ spec:
     name: data-etcd
 EOF
 
-
-
 local TEMPLATE=/etc/etcd/etcd.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 name: '${NODE_HOSTNAME}'
 data-dir: /data/etcd
 wal-dir:

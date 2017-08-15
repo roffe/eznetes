@@ -28,12 +28,12 @@ function worker_deploy() {
 
 function etcd_deploy() {
 	local NODE_HOSTNAME=$(echo ${2} | cut -d'.' -f1)
-    check_ca_exist
-    create_proxy_cert
-    create_etcd_server_cert ${1} ${2}
-    create_node_cert ${1} ${2}
-    build_package ${FUNCNAME} ${1} ${2}
-    echo "Deploying etcd on: ${1}"
+	check_ca_exist
+	create_proxy_cert
+	create_etcd_server_cert ${1} ${2}
+	create_node_cert ${1} ${2}
+	build_package ${FUNCNAME} ${1} ${2}
+	echo "Deploying etcd on: ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
 	ssh -q ${USERNAME}@${1} 'bash -c "tar xzf deploy.tgz && sudo ./install.sh && rm -rf settings.rc install.sh ssl deploy.tgz inc"'
 }

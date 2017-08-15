@@ -3,7 +3,7 @@
 local TEMPLATE=/etc/kubernetes/kube-proxy.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: componentconfig/v1alpha1
 bindAddress: 0.0.0.0
 clientConnection:
@@ -41,7 +41,7 @@ EOF
 local TEMPLATE=/etc/kubernetes/proxy-kubeconfig.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: v1
 kind: Config
 clusters:
@@ -64,7 +64,7 @@ EOF
 local TEMPLATE=/etc/kubernetes/manifests/kube-proxy.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: v1
 kind: Pod
 metadata:

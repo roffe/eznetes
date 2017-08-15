@@ -3,7 +3,7 @@
 local TEMPLATE=/etc/flannel/options.env
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 FLANNELD_IFACE=$ADVERTISE_IP
 FLANNELD_ETCD_ENDPOINTS=$ETCD_ENDPOINTS
 FLANNELD_ETCD_CAFILE=/etc/ssl/etcd/ca.pem
@@ -11,19 +11,19 @@ FLANNELD_ETCD_CERTFILE=/etc/ssl/etcd/client.pem
 FLANNELD_ETCD_KEYFILE=/etc/ssl/etcd/client-key.pem
 EOF
 
-    local TEMPLATE=/etc/systemd/system/flanneld.service.d/40-ExecStartPre-symlink.conf.conf
-        echo "TEMPLATE: $TEMPLATE"
-        mkdir -p $(dirname $TEMPLATE)
-        cat << EOF > $TEMPLATE
+local TEMPLATE=/etc/systemd/system/flanneld.service.d/40-ExecStartPre-symlink.conf.conf
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
 [Service]
 ExecStartPre=/usr/bin/ln -sf /etc/flannel/options.env /run/flannel/options.env
 EOF
 
 local TEMPLATE=/etc/kubernetes/cni/net.d/10-flannel.conf
 if [ "${USE_CALICO}" = "false" ]; then
-    echo "TEMPLATE: $TEMPLATE"
-    mkdir -p $(dirname $TEMPLATE)
-    cat << EOF > $TEMPLATE
+	echo "TEMPLATE: $TEMPLATE"
+	mkdir -p $(dirname $TEMPLATE)
+	cat <<EOF >$TEMPLATE
 {
     "name": "podnet",
     "type": "flannel",

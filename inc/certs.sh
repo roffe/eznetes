@@ -11,7 +11,7 @@ function create_apiserver_cert() {
 	mkdir -p certs/apiserver/certs
 	check_ca_exist
 	if [[ ! -z ${1} ]] && [[ ! -z ${2} ]]; then
-		
+
 		local APISERVER_HOSTNAME=$(echo ${2} | cut -d'.' -f1)
 		if [ ! -f "certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}-key.pem" ]; then
 			echo "Generating apiserver private key"
@@ -55,7 +55,7 @@ function create_controller_cert() {
 	if [ ! -f certs/controller/controller.pem ]; then
 		echo "Generatig kube-controller-manager cert"
 		openssl req -new -key certs/controller/controller-key.pem -out certs/controller/controller.csr -subj "/CN=system:kube-controller-manager"
-		openssl x509 -req -in certs/controller/controller.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out 	certs/controller/controller.pem -days 3650
+		openssl x509 -req -in certs/controller/controller.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/controller/controller.pem -days 3650
 	else
 		echo "kube-controller-manager cert exists, skipping creation"
 	fi
@@ -65,7 +65,7 @@ function create_controller_cert() {
 function create_node_cert() {
 	mkdir -p certs/node
 	local NODE_HOSTNAME=$(echo ${2} | cut -d'.' -f1)
-	
+
 	if [ ! -f "certs/node/${NODE_HOSTNAME}-key.pem" ]; then
 		echo "Generatig ${NODE_HOSTNAME} private key"
 		openssl genrsa -out certs/node/${NODE_HOSTNAME}-key.pem 2048
@@ -89,7 +89,7 @@ function create_proxy_cert() {
 	else
 		echo "kube-proxy private key exists, skippping creation"
 	fi
-	
+
 	if [ ! -f certs/proxy/proxy.pem ]; then
 		echo "Creating kube-proxy cert"
 		openssl req -new -key certs/proxy/proxy-key.pem -out certs/proxy/proxy.csr -subj "/CN=system:kube-proxy"
@@ -106,7 +106,7 @@ function create_scheduler_cert() {
 	else
 		echo "kube-scheduler private key exists, skippping creation"
 	fi
-	
+
 	if [ ! -f certs/scheduler/scheduler.pem ]; then
 		openssl req -new -key certs/scheduler/scheduler-key.pem -out certs/scheduler/scheduler.csr -subj "/CN=system:kube-scheduler"
 		openssl x509 -req -in certs/scheduler/scheduler.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/scheduler/scheduler.pem -days 3650

@@ -3,7 +3,7 @@ local TEMPLATE=/etc/systemd/system/kubelet.service
 local uuid_file="/var/run/kubelet-pod.uuid"
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 [Service]
 Environment=KUBELET_IMAGE_TAG=${K8S_VER}
 Environment=KUBELET_IMAGE_URL=docker://${HYPERKUBE_IMAGE_REPO}
@@ -54,7 +54,7 @@ EOF
 local TEMPLATE=/etc/kubernetes/etcd-kubeconfig.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: v1
 kind: Config
 clusters:

@@ -3,7 +3,7 @@
 local TEMPLATE=/etc/kubernetes/manifests/kube-apiserver.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
-cat << EOF > $TEMPLATE
+cat <<EOF >$TEMPLATE
 apiVersion: v1
 kind: Pod
 metadata:

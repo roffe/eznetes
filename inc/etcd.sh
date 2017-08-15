@@ -10,7 +10,7 @@ function create_etcd_server_cert() {
 		else
 			echo "etcd/${ETCD_HOSTNAME} private key exists, skipping creation"
 		fi
-		
+
 		if [ ! -f certs/etcd/server/${ETCD_HOSTNAME}.pem ]; then
 			ETCD_HOSTNAME=${ETCD_HOSTNAME} ETCD_IP=${1} ETCD_FQDN=${2} openssl req -new -key certs/etcd/server/${ETCD_HOSTNAME}-key.pem -out certs/etcd/server/${ETCD_HOSTNAME}.csr -subj "/CN=${2}" -config certs/etcd/cnf/server.cnf
 			ETCD_HOSTNAME=${ETCD_HOSTNAME} ETCD_IP=${1} ETCD_FQDN=${2} openssl x509 -req -in certs/etcd/server/${ETCD_HOSTNAME}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/etcd/server/${ETCD_HOSTNAME}.pem -days 3650 -extensions v3_req -extfile certs/etcd/cnf/server.cnf
