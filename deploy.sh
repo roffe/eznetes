@@ -33,6 +33,7 @@ function batch_run() {
 		IFS=$'\n'
 		for LINE in $(egrep -v '^#|^$' hosts.rc); do
 			echo $LINE | xargs -L 1 ./deploy.sh
+			sleep 3
 		done
 		IFS=$OLDIFS
 	else
