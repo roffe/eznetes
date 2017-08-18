@@ -1,10 +1,14 @@
 #!/bin/bash
 
 function create_admin_cert() {
+	local CN=${1:-admin}
+	local O=${2:-system:masters}
+	echo "CN ${CN} O ${O}"
 	mkdir -p certs/admin
-	openssl genrsa -out certs/admin/admin-key.pem 2048
-	openssl req -new -key certs/admin/admin-key.pem -out certs/admin/admin.csr -subj "/CN=admin/O=system:master"
-	openssl x509 -req -in certs/admin/admin.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/admin/admin.pem -days 365
+	openssl genrsa -out ${CN}-key.pem 2048
+	openssl req -new -key ${CN}-key.pem -out ${CN}.csr -subj "/CN=${CN}/O=${O}"
+	openssl x509 -req -in ${CN}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out ${CN}.pem -days 365
+	rm -f ${CN}.csr
 }
 
 function create_apiserver_cert() {

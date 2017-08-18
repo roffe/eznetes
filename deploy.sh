@@ -151,7 +151,7 @@ create-ca)
 cert)
 	case "${2}" in
 	admin)
-		create_admin_cert
+		create_admin_cert ${3} ${4}
 		;;
 
 	ca)

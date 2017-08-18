@@ -13,6 +13,7 @@ function build_package() {
 		cp -v scripts/etcd-install.sh ${TMPDIR}/install.sh
 		cp -rv scripts/inc ${TMPDIR}
 		cp -v settings.rc ${TMPDIR}/
+		cp -v bootstraptoken.csv ${TMPDIR}/
 		build_package_addsettings ${2} ${NODE_HOSTNAME}
 		tar czf deploy.tgz -C ${TMPDIR} .
 		;;
