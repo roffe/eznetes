@@ -4,6 +4,8 @@ set -e
 mkdir -p /etc/ssl/etcd
 mkdir -p /etc/kubernetes/ssl
 
+mv bootstraptoken.csv /etc/kubernetes/ssl/
+
 mv ssl/client* /etc/ssl/etcd/
 cp ssl/ca.pem /etc/ssl/etcd/
 

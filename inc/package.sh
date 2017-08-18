@@ -20,7 +20,7 @@ function build_package() {
 	master_deploy)
 		echo "Building master package"
 		mkdir -p ${TMPDIR}/ssl
-		cp -v certs/ca/ca.pem ${TMPDIR}/ssl/
+		cp -v certs/ca/ca*.pem ${TMPDIR}/ssl/
 		cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
 		cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
 		cp -v certs/apiserver/certs/apiserver-${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
@@ -30,6 +30,7 @@ function build_package() {
 		cp -v scripts/master-install.sh ${TMPDIR}/install.sh
 		cp -rv scripts/inc ${TMPDIR}
 		cp -v settings.rc ${TMPDIR}/
+		cp -v bootstraptoken.csv ${TMPDIR}/
 		build_package_addsettings ${2} ${NODE_HOSTNAME}
 		tar czf deploy.tgz -C ${TMPDIR} .
 		;;
@@ -38,12 +39,13 @@ function build_package() {
 		echo "Building worker package"
 		mkdir -p ${TMPDIR}/ssl
 		cp -v certs/ca/ca.pem ${TMPDIR}/ssl/
-		cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
+		# cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
 		cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
 		cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
 		cp -v scripts/worker-install.sh ${TMPDIR}/install.sh
 		cp -rv scripts/inc ${TMPDIR}
 		cp -v settings.rc ${TMPDIR}/
+		cp -v bootstraptoken.csv ${TMPDIR}/
 		build_package_addsettings ${2} ${NODE_HOSTNAME}
 		tar czf deploy.tgz -C ${TMPDIR} .
 		;;

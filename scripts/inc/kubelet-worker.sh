@@ -1,26 +1,28 @@
 #!/bin/bash
+rm -f /etc/kubernetes/worker-kubeconfig.yaml
 
-local TEMPLATE=/etc/kubernetes/worker-kubeconfig.yaml
+local TEMPLATE=/etc/kubernetes/bootstrap.kubeconfig
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
 apiVersion: v1
-kind: Config
 clusters:
-- name: local
-  cluster:
+- cluster:
     certificate-authority: /etc/kubernetes/ssl/ca.pem
-users:
-- name: kubelet
-  user:
-    client-certificate: /etc/kubernetes/ssl/${NODE_HOSTNAME}.pem
-    client-key: /etc/kubernetes/ssl/${NODE_HOSTNAME}-key.pem
+    server: ${CONTROLLER_ENDPOINT}
+  name: bootstrap
 contexts:
 - context:
-    cluster: local
-    user: kubelet
-  name: kubelet-context
-current-context: kubelet-context
+    cluster: bootstrap
+    user: kubelet-bootstrap
+  name: default
+current-context: default
+kind: Config
+preferences: {}
+users:
+- name: kubelet-bootstrap
+  user:
+    token: $(cat bootstraptoken.csv | cut -d ',' -f1)
 EOF
 
 local TEMPLATE=/etc/systemd/system/kubelet.service
@@ -52,7 +54,6 @@ ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
-  --api-servers=${CONTROLLER_ENDPOINT} \
   --cni-conf-dir=/etc/kubernetes/cni/net.d \
   --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
@@ -65,6 +66,10 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --hostname-override=${ADVERTISE_IP} \
   --cluster-dns=${DNS_SERVICE_IP} \
   --cluster-domain=${CLUSTER_DOMAIN} \
+  --require-kubeconfig \
+  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+  --cert-dir=/etc/kubernets/ssl \
+  --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
   --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml
 ExecStop=-/usr/bin/rkt stop --uuid-file=${uuid_file}
 Restart=always

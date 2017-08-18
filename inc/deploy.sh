@@ -5,8 +5,9 @@ function master_deploy() {
 	create_controller_cert
 	create_proxy_cert
 	create_scheduler_cert
-	create_node_cert ${1} $2}
+	create_node_cert ${1} ${2}
 	create_etcd_client_cert
+	create_bootstrap_token
 	build_package ${FUNCNAME} ${1} ${2}
 	echo "Deploying master on ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
