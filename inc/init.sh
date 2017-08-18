@@ -58,6 +58,8 @@ function init_k8s() {
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/heapster
 	echo "Installing Kubernetes-dashboard"
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kubernetes-dashboard
+	echo "Creating RBAC roles for nodes automatic TLS handling"
+	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/approvalcontroller
 
 	echo "Removing local apiserver"
 	docker stop k8s-bootstrap

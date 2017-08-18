@@ -7,7 +7,7 @@ set -e
 trap deploy_exit INT EXIT
 
 # TLS bootstrap related functions
-source bootstrap.sh
+source inc/bootstrap.sh
 
 # Import settings
 source settings.rc

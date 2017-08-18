@@ -1,4 +1,30 @@
 #!/bin/bash
+rm -f /etc/kubernetes/worker-kubeconfig.yaml
+
+local TEMPLATE=/etc/kubernetes/bootstrap.kubeconfig
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /etc/kubernetes/ssl/ca.pem
+    server: ${CONTROLLER_ENDPOINT}
+  name: bootstrap
+contexts:
+- context:
+    cluster: bootstrap
+    user: kubelet-bootstrap
+  name: default
+current-context: default
+kind: Config
+preferences: {}
+users:
+- name: kubelet-bootstrap
+  user:
+    token: $(cat bootstraptoken.csv | cut -d ',' -f1)
+EOF
+
 local TEMPLATE=/etc/systemd/system/kubelet.service
 local uuid_file="/var/run/kubelet-pod.uuid"
 echo "TEMPLATE: $TEMPLATE"
@@ -42,34 +68,15 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --hostname-override=${ADVERTISE_IP} \
   --cluster-dns=${DNS_SERVICE_IP} \
   --cluster-domain=${CLUSTER_DOMAIN} \
-  --kubeconfig=/etc/kubernetes/etcd-kubeconfig.yaml
+  --require-kubeconfig \
+  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+  --cert-dir=/etc/kubernets/ssl \
+  --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
+  --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml
 ExecStop=-/usr/bin/rkt stop --uuid-file=${uuid_file}
 Restart=always
 RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
-EOF
-
-local TEMPLATE=/etc/kubernetes/etcd-kubeconfig.yaml
-echo "TEMPLATE: $TEMPLATE"
-mkdir -p $(dirname $TEMPLATE)
-cat <<EOF >$TEMPLATE
-apiVersion: v1
-kind: Config
-clusters:
-- name: local
-  cluster:
-    certificate-authority: /etc/kubernetes/ssl/ca.pem
-users:
-- name: kubelet
-  user:
-    client-certificate: /etc/kubernetes/ssl/${NODE_HOSTNAME}.pem
-    client-key: /etc/kubernetes/ssl/${NODE_HOSTNAME}-key.pem
-contexts:
-- context:
-    cluster: local
-    user: kubelet
-  name: kubelet-context
-current-context: kubelet-context
 EOF
