@@ -19,7 +19,7 @@ function worker_deploy() {
 	test_ssh $1
 	check_ca_exist
 	create_proxy_cert
-	create_node_cert ${1} ${2}
+	# create_node_cert ${1} ${2}
 	create_etcd_client_cert
 	build_package ${FUNCNAME} ${1} ${2}
 	echo "Deploying worker on: ${1}"
@@ -32,7 +32,7 @@ function etcd_deploy() {
 	check_ca_exist
 	create_proxy_cert
 	create_etcd_server_cert ${1} ${2}
-	create_node_cert ${1} ${2}
+	# create_node_cert ${1} ${2}
 	build_package ${FUNCNAME} ${1} ${2}
 	echo "Deploying etcd on: ${1}"
 	scp -q deploy.tgz ${USERNAME}@${1}:~/
