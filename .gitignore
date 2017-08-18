@@ -2,5 +2,6 @@
 *.pem
 *.csr
 *.srl
+bootstraptoken.csv
 settings.rc
 hosts.rc

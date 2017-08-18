@@ -122,6 +122,7 @@ Files will be created in `certs/admin`
 
 **The certs are then to be copied to your kubectl config folder and can be used to authenticate to the cluster.**
 
+## Configure Kubectl
 Below is a sample of how a kubectl config can look for your cluster. Typically it's placed on ~/.kube/config
 
 ```yaml

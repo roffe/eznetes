@@ -6,6 +6,9 @@ set -e
 # trap ctrl-c, call ctrl_c() & Exit
 trap deploy_exit INT EXIT
 
+# TLS bootstrap related functions
+source bootstrap.sh
+
 # Import settings
 source settings.rc
 
