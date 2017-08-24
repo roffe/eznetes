@@ -68,7 +68,7 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --cluster-domain=${CLUSTER_DOMAIN} \
   --require-kubeconfig \
   --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
-  --cert-dir=/etc/kubernets/ssl \
+  --cert-dir=/etc/kubernetes/ssl \
   --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
   --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml
 ExecStop=-/usr/bin/rkt stop --uuid-file=${uuid_file}
