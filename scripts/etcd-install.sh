@@ -5,7 +5,7 @@ mkdir -p /etc/ssl/etcd
 mv ssl/etcd/* /etc/ssl/etcd/
 cp ssl/ca.pem /etc/ssl/etcd/
 chmod 600 /etc/ssl/etcd/*-key.pem
-chown root:root /etc/ssl/etcd/*-key.pemm
+chown root:root /etc/ssl/etcd/*-key.pem
 
 source settings.rc
 
