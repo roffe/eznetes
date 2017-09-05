@@ -144,10 +144,6 @@ worker)
 	fi
 	;;
 
-create-ca)
-	create_ca
-	;;
-
 cert)
 	case "${2}" in
 	admin)
