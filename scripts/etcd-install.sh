@@ -56,9 +56,9 @@ function etcd_initial_cluster_list() {
 function init_templates() {
 	source inc/docker.sh
 	source inc/kube-etcd.sh
-	source inc/rkt.sh
-	source inc/kubelet-etcd.sh
-	source inc/kube-proxy.sh
+#	source inc/rkt.sh
+#	source inc/kubelet-etcd.sh
+#	source inc/kube-proxy.sh
 }
 
 init_config

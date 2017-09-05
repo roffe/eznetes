@@ -117,3 +117,5 @@ debug: false
 log-package-levels:
 force-new-cluster: false
 EOF
+
+docker run -d --restart=always --net=host -v /data/etcd:/data/etcd -v /etc/etcd/etcd.yaml:/etc/etcd/etcd.yaml -v /etc/ssl/etcd:/etc/ssl/etcd  --name=etcd quay.io/coreos/etcd:v3.2 etcd --config-file=/etc/etcd/etcd.yaml
