@@ -64,7 +64,7 @@ function init_templates() {
 init_config
 init_templates
 
-chmod +x /opt/bin/host-rkt
+# chmod +x /opt/bin/host-rkt
 
 echo "Running Daemon reload"
 systemctl daemon-reload
