@@ -2,8 +2,6 @@
 set -e
 
 mkdir -p /etc/ssl/etcd
-
-mv ssl/client* /etc/ssl/etcd/
 mv ssl/etcd/* /etc/ssl/etcd/
 cp ssl/ca.pem /etc/ssl/etcd/
 chmod 600 /etc/ssl/etcd/*-key.pem

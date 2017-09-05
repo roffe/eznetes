@@ -9,7 +9,7 @@ function build_package() {
 		# cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
 		# cp -v certs/proxy/proxy*.pem ${TMPDIR}/ssl/
 		cp -v certs/etcd/server/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/etcd
-		cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
+		# cp -v certs/etcd/client/client*.pem ${TMPDIR}/ssl/
 		cp -v scripts/etcd-install.sh ${TMPDIR}/install.sh
 		cp -rv scripts/inc ${TMPDIR}
 		cp -v settings.rc ${TMPDIR}/
