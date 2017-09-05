@@ -2,19 +2,19 @@
 set -e
 
 mkdir -p /etc/ssl/etcd
-mkdir -p /etc/kubernetes/ssl
+#mkdir -p /etc/kubernetes/ssl
 
 mv ssl/client* /etc/ssl/etcd/
 mv ssl/etcd/* /etc/ssl/etcd/
 cp ssl/ca.pem /etc/ssl/etcd/
 
-mv ssl/* /etc/kubernetes/ssl/
+#mv ssl/* /etc/kubernetes/ssl/
 
 chmod 600 /etc/ssl/etcd/*-key.pem
-chmod 600 /etc/kubernetes/ssl/*-key.pem
+#chmod 600 /etc/kubernetes/ssl/*-key.pem
 
 chown root:root /etc/ssl/etcd/*-key.pem
-chown root:root /etc/kubernetes/ssl/*-key.pem
+#chown root:root /etc/kubernetes/ssl/*-key.pem
 
 source settings.rc
 
