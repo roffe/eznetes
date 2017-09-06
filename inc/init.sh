@@ -23,7 +23,7 @@ function init_k8s() {
 	create_apiserver_cert "127.0.0.1" "localhost"
 	echo "Starting local apiserver"
 	docker run --rm -d --name k8s-bootstrap \
-		-p 8080:8080 \
+		-p 8989:8989 \
 		-v ${PWD}/certs/ca/ca.pem:/etc/ssl/ca.pem \
 		-v ${PWD}/certs/etcd/client/client.pem:/etc/ssl/etcd/client.pem \
 		-v ${PWD}/certs/etcd/client/client-key.pem:/etc/ssl/etcd/client-key.pem \
