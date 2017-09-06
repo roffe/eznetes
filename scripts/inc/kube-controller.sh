@@ -46,7 +46,6 @@ spec:
     - --node-monitor-period=2s
     - --node-monitor-grace-period=16s
     - --pod-eviction-timeout=30s
-    - --service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
     - --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem
     - --cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem
