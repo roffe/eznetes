@@ -22,14 +22,14 @@ source settings.rc
 # -------------
 
 function init_config() {
-	local REQUIRED=('ADVERTISE_IP' 'ETCD_ENDPOINTS' 'CONTROLLER_ENDPOINT' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'USE_CNI' 'MAX_PODS')
+	local REQUIRED=('ADVERTISE_IP' 'ETCD_ENDPOINTS' 'CONTROLLER_ENDPOINT' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'USE_WEAVE' 'MAX_PODS')
 
 	if [ -z $MAX_PODS ]; then
 		# Number of Pods that can run on this Kubelet. (default 110)
 		export MAX_PODS=110
 	fi
 	
-	if [ "${USE_CNI}" = "true" ]; then
+	if [ "${USE_WEAVE}" = "true" ]; then
 		export CNI_OPTS="--volume=opt-cni,kind=host,source=/opt/cni,readOnly=true \
                          --mount volume=opt-cni,target=/opt/weave-net"
 	else
@@ -50,7 +50,7 @@ function init_templates() {
 	source inc/rkt.sh
 	source inc/kubelet-worker.sh
 	source inc/kube-proxy.sh
-	if [ "${USE_CNI}" = "false" ]; then
+	if [ "${USE_WEAVE}" = "false" ]; then
 		source inc/flannel.sh
 	fi
 }
@@ -68,9 +68,13 @@ if [ $CONTAINER_RUNTIME = "rkt" ]; then
 	systemctl enable load-rkt-stage1
 	echo "Enable rkt-api"
 	systemctl enable rkt-api
+else
+	echo "Starting & enabling Docker"
+	systemctl enable docker
+	systemctl start docker
 fi
 
-if [ "${USE_CNI}" = "false" ]; then
+if [ "${USE_WEAVE}" = "false" ]; then
 	echo "Restarting Flannel"
 	systemctl enable flanneld
 	systemctl restart flanneld
