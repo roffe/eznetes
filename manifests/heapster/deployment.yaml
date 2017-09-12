@@ -18,4 +18,4 @@ spec:
         imagePullPolicy: IfNotPresent
         command:
         - /heapster
-        - --source=kubernetes:https://kubernetes.default
+        - --source=kubernetes:https://kubernetes.default.svc.cluster.local
