@@ -78,6 +78,7 @@ if [ "${USE_CNI}" = "false" ]; then
 	systemctl enable flanneld
 	systemctl restart flanneld
 fi
+
 echo "Restarting Kubelet"
 systemctl enable kubelet
 systemctl restart kubelet
