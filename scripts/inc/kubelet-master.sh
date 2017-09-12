@@ -51,6 +51,7 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
 ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
+ExecStartPre=/usr/bin/mkdir -p /etc/cni
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStart=/usr/lib/coreos/kubelet-wrapper \

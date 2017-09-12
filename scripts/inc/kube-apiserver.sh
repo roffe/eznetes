@@ -39,6 +39,7 @@ spec:
     - --experimental-bootstrap-token-auth
     - --runtime-config=authentication.k8s.io/v1beta1=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
+    - --audit-log-path=-
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
     livenessProbe:
       httpGet:
