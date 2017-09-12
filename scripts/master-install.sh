@@ -50,7 +50,9 @@ function init_templates() {
 	source inc/rkt.sh
 	source inc/kubelet-master.sh
 	source inc/kube-proxy.sh
-	source inc/flannel.sh
+	if [ "${USE_CNI}" = "false" ]; then
+		source inc/flannel.sh
+	fi
 	source inc/kube-apiserver.sh
 	source inc/kube-controller.sh
 	source inc/kube-scheduler.sh
@@ -71,10 +73,11 @@ if [ $CONTAINER_RUNTIME = "rkt" ]; then
 	systemctl enable rkt-api
 fi
 
-echo "Restarting Flannel"
-systemctl enable flanneld
-systemctl restart flanneld
-
+if [ "${USE_CNI}" = "false" ]; then
+	echo "Restarting Flannel"
+	systemctl enable flanneld
+	systemctl restart flanneld
+fi
 echo "Restarting Kubelet"
 systemctl enable kubelet
 systemctl restart kubelet

@@ -69,9 +69,11 @@ if [ $CONTAINER_RUNTIME = "rkt" ]; then
 	systemctl enable rkt-api
 fi
 
-echo "Restarting Flannel"
-systemctl enable flanneld
-systemctl restart flanneld
+if [ "${USE_CNI}" = "false" ]; then
+	echo "Restarting Flannel"
+	systemctl enable flanneld
+	systemctl restart flanneld
+fi
 
 echo "Restarting Kubelet"
 systemctl enable kubelet
