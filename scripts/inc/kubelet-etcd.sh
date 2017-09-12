@@ -57,7 +57,6 @@ ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --cni-conf-dir=/etc/cni/net.d \
-  --cni-bin-dir=/opt/bin/cni \
   --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
   --rkt-path=/usr/bin/rkt \

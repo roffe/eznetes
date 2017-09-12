@@ -28,9 +28,10 @@ function init_config() {
 		# Number of Pods that can run on this Kubelet. (default 110)
 		export MAX_PODS=110
 	fi
+	
 	if [ "${USE_CNI}" = "true" ]; then
-		export CNI_OPTS="--volume cni-bin,kind=host,source=/opt/cni/bin \
-                            --mount volume=cni-bin,target=/opt/cni2/bin"
+		export CNI_OPTS="--volume=opt-cni,kind=host,source=/opt/cni,readOnly=true \
+                         --mount volume=opt-cni,target=/opt/weave-net"
 	else
 		export CNI_OPTS=""
 	fi
