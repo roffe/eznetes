@@ -29,11 +29,6 @@ function init_config() {
 		export MAX_PODS=110
 	fi
 
-
-
-                      --volume=opt-cni,kind=host,source=/opt/cni,readOnly=true \
-                      --mount volume=opt-cni,target=/opt/weave-net \
-
 	if [ "${USE_CNI}" = "true" ]; then
 		export CNI_OPTS="--volume=opt-cni,kind=host,source=/opt/cni,readOnly=true \
                          --mount volume=opt-cni,target=/opt/weave-net"
@@ -82,6 +77,11 @@ if [ "${USE_CNI}" = "false" ]; then
 	echo "Restarting Flannel"
 	systemctl enable flanneld
 	systemctl restart flanneld
+else
+	echo "Stopping Flannel"
+	systemctl disable flanneld
+	systemctl stop flanneld
+	rm -rf /etc/systemd/system/docker.service.d/40-flannel.conf
 fi
 
 echo "Restarting Kubelet"

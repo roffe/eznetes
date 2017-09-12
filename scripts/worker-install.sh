@@ -78,6 +78,7 @@ else
 	echo "Stopping Flannel"
 	systemctl disable flanneld
 	systemctl stop flanneld
+	rm -rf /etc/systemd/system/docker.service.d/40-flannel.conf
 fi
 
 echo "Restarting Kubelet"

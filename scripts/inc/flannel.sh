@@ -38,7 +38,7 @@ cat <<EOF >$TEMPLATE
 ExecStartPre=/usr/bin/ln -sf /etc/flannel/options.env /run/flannel/options.env
 EOF
 
-local TEMPLATE=/etc/kubernetes/cni/net.d/10-flannel.conf
+local TEMPLATE=/etc/cni/net.d/10-flannel.conf
 if [ "${USE_CNI}" = "false" ]; then
 	echo "TEMPLATE: $TEMPLATE"
 	mkdir -p $(dirname $TEMPLATE)
