@@ -56,7 +56,7 @@ export K8S_SERVICE_IP=10.3.0.1
 export DNS_SERVICE_IP=10.3.0.10,10.3.0.11,10.3.0.12
 
 # Experimental. Not fully implemented
-# Whether to use CNI plugin for Kubernetes network policy. (set to false to use Flannel)
+# Whether to use weave-net for Kubernetes CNI. If false flanneld will be used instead
 export USE_WEAVE=false
 
 # Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
