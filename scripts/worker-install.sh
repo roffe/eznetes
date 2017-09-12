@@ -73,6 +73,10 @@ if [ "${USE_CNI}" = "false" ]; then
 	echo "Restarting Flannel"
 	systemctl enable flanneld
 	systemctl restart flanneld
+else
+	echo "Stopping Flannel"
+	systemctl disable flanneld
+	systemctl stop flanneld
 fi
 
 echo "Restarting Kubelet"
