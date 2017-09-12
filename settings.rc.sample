@@ -56,8 +56,8 @@ export K8S_SERVICE_IP=10.3.0.1
 export DNS_SERVICE_IP=10.3.0.10,10.3.0.11,10.3.0.12
 
 # Experimental. Not fully implemented
-# Whether to use Calico for Kubernetes network policy.
-export USE_CALICO=false
+# Whether to use CNI plugin for Kubernetes network policy. (set to false to use Flannel)
+export USE_CNI=false
 
 # Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
 export CONTAINER_RUNTIME=docker

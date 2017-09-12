@@ -22,18 +22,18 @@ source settings.rc
 # -------------
 
 function init_config() {
-	local REQUIRED=('ADVERTISE_IP' 'POD_NETWORK' 'ETCD_ENDPOINTS' 'SERVICE_IP_RANGE' 'K8S_SERVICE_IP' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'USE_CALICO' 'MAX_PODS')
+	local REQUIRED=('ADVERTISE_IP' 'POD_NETWORK' 'ETCD_ENDPOINTS' 'SERVICE_IP_RANGE' 'K8S_SERVICE_IP' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'USE_CNI' 'MAX_PODS')
 
 	if [ -z $MAX_PODS ]; then
 		# Number of Pods that can run on this Kubelet. (default 110)
 		export MAX_PODS=110
 	fi
 
-	if [ "${USE_CALICO}" = "true" ]; then
-		export CALICO_OPTS="--volume cni-bin,kind=host,source=/opt/cni/bin \
+	if [ "${USE_CNI}" = "true" ]; then
+		export CNI_OPTS="--volume cni-bin,kind=host,source=/opt/cni/bin \
                             --mount volume=cni-bin,target=/opt/cni/bin"
 	else
-		export CALICO_OPTS=""
+		export CNI_OPTS=""
 	fi
 
 	for REQ in "${REQUIRED[@]}"; do

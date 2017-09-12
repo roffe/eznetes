@@ -47,14 +47,14 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   --mount volume=stage,target=/tmp \
   --volume var-log,kind=host,source=/var/log \
   --mount volume=var-log,target=/var/log \
-  ${CALICO_OPTS}"
+  ${CNI_OPTS}"
 ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
-  --cni-conf-dir=/etc/kubernetes/cni/net.d \
+  --cni-conf-dir=/etc/cni/net.d \
   --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
   --rkt-path=/usr/bin/rkt \
