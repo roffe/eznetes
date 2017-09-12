@@ -57,6 +57,7 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --api-servers=https://127.0.0.1 \
   --register-with-taints="node-role.kubernetes.io/master=:NoSchedule" \
   --cni-conf-dir=/etc/cni/net.d \
+  --cni-bin-dir=/opt/bin/cni2 \
   --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
   --rkt-path=/usr/bin/rkt \

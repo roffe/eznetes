@@ -30,7 +30,7 @@ function init_config() {
 	fi
 	if [ "${USE_CNI}" = "true" ]; then
 		export CNI_OPTS="--volume cni-bin,kind=host,source=/opt/cni/bin \
-                            --mount volume=cni-bin,target=/opt/cni/bin"
+                            --mount volume=cni-bin,target=/opt/cni2/bin"
 	else
 		export CNI_OPTS=""
 	fi
