@@ -38,7 +38,7 @@ export HYPERKUBE_IMAGE_REPO=gcr.io/google_containers/hyperkube-amd64
 # The CIDR network to use for pod IPs.
 # Each pod launched in the cluster will be assigned an IP out of this range.
 # Each node will be configured such that these IPs will be routable using the flannel overlay network.
-export POD_NETWORK=10.1.0.0/16
+export POD_NETWORK=10.32.0.0/12
 
 # The CIDR network to use for service cluster IPs.
 # Each service will be assigned a cluster IP out of this range.

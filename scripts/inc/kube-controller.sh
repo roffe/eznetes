@@ -47,6 +47,7 @@ spec:
     - --node-monitor-grace-period=16s
     - --pod-eviction-timeout=30s
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
+    - --cluster-cidr="${POD_NETWORK}"
     - --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem
     - --cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
