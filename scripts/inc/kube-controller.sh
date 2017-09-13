@@ -39,7 +39,7 @@ spec:
     - /hyperkube
     - controller-manager
     - --master=https://127.0.0.1
-    - --controllers="attachdetach, bootstrapsigner, cronjob, csrapproving, csrsigning, daemonset, deployment, disruption, endpoint, garbagecollector, horizontalpodautoscaling, job, namespace, node, persistentvolume-binder, podgc, replicaset, replicationcontroller, resourcequota, route, -service, serviceaccount, serviceaccount-token, statefulset, tokencleaner, ttl"
+    - --controllers="attachdetach,bootstrapsigner,cronjob,csrapproving,csrsigning,daemonset,deployment,disruption,endpoint,garbagecollector,horizontalpodautoscaling,job,namespace,node,persistentvolume-binder,podgc,replicaset,replicationcontroller,resourcequota,route,-service,serviceaccount,serviceaccount-token,statefulset,tokencleaner,ttl"
     - --leader-elect=true
     - --service-account-private-key-file=/etc/kubernetes/ssl/controller-key.pem
     - --use-service-account-credentials
