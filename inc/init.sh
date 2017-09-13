@@ -51,7 +51,8 @@ function init_k8s() {
 	until curl --silent "http://127.0.0.1:8989/version"; do
 		sleep 5
 	done
-
+	echo "Installing Weave-net"
+	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989 && openssl rand -base64 32 > weave-passwd && kubectl create secret -n kube-system generic weave-passwd --from-file=./weave-passwd
 	echo "Installing Kube-DNS"
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989
 	echo "Installing Heapster"
