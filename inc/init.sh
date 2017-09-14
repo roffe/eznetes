@@ -54,7 +54,7 @@ function init_k8s() {
 		sleep 5
 	done
 	echo "Installing Weave-net"
-	docker run --rm --net=host -v ${PWD}/weave-passwd:/weave-passwd -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl create secret --namespacen kube-system generic weave-passwd --from-file=/weave-passwd --server 127.0.0.1:8989
+	docker run --rm --net=host -v ${PWD}/weave-passwd:/weave-passwd -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl create secret --namespace kube-system generic weave-passwd --from-file=/weave-passwd --server 127.0.0.1:8989
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/weave-net --server 127.0.0.1:8989
 	echo "Installing Kube-DNS"
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989
