@@ -46,7 +46,7 @@ function init_k8s() {
 		--tls-private-key-file=/etc/ssl/apiserver-key.pem \
 		--client-ca-file=/etc/ssl/ca.pem \
 		--service-account-key-file=/etc/ssl/controller-key.pem \
-		--runtime-config=extensions/v1beta1/networkpolicies=true
+		--runtime-config=extensions/v1beta1/networkpolicies=true,batch/v2alpha1=true
 
 	echo "Waiting for Kubernetes API..."
 	until curl --silent "http://127.0.0.1:8989/version"; do
