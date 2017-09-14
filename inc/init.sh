@@ -23,7 +23,7 @@ function init_k8s() {
 	create_apiserver_cert "127.0.0.1" "localhost"
 	echo "Starting local apiserver"
 	docker run --rm -d --name k8s-bootstrap \
-		-p 8989:8989 \
+		--net=host \
 		-v ${PWD}/certs/ca/ca.pem:/etc/ssl/ca.pem \
 		-v ${PWD}/certs/etcd/client/client.pem:/etc/ssl/etcd/client.pem \
 		-v ${PWD}/certs/etcd/client/client-key.pem:/etc/ssl/etcd/client-key.pem \
@@ -40,6 +40,7 @@ function init_k8s() {
 		--service-cluster-ip-range=${SERVICE_IP_RANGE}  \
 		--insecure-bind-address=0.0.0.0 \
 		--insecure-port=8989 \
+		--secure-port=8443 \
 		--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds \
 		--tls-cert-file=/etc/ssl/apiserver.pem \
 		--tls-private-key-file=/etc/ssl/apiserver-key.pem \
