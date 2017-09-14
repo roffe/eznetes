@@ -20,6 +20,7 @@ function init_flannel() {
 
 # Start a insecure apiserver locally that we will use to add out first services & addons to kubernetes.
 function init_k8s() {
+	openssl rand -base64 32 > weave-passwd
 	create_apiserver_cert "127.0.0.1" "localhost"
 	echo "Starting local apiserver"
 	docker run --rm -d --name k8s-bootstrap \
@@ -30,6 +31,7 @@ function init_k8s() {
 		-v ${PWD}/certs/apiserver/certs/apiserver-localhost.pem:/etc/ssl/apiserver.pem \
 		-v ${PWD}/certs/apiserver/certs/apiserver-localhost-key.pem:/etc/ssl/apiserver-key.pem \
 		-v ${PWD}/certs/controller/controller-key.pem:/etc/ssl/controller-key.pem \
+		-v ${PWD}/weave-passwd:/weave-passwd
 		${HYPERKUBE_IMAGE_REPO}:$K8S_VER /hyperkube \
 		apiserver \
 		--etcd-cafile=/etc/ssl/ca.pem \
@@ -52,7 +54,8 @@ function init_k8s() {
 		sleep 5
 	done
 	echo "Installing Weave-net"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989 && openssl rand -base64 32 > weave-passwd && kubectl create secret -n kube-system generic weave-passwd --from-file=./weave-passwd
+	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl create secret -n kube-system generic weave-passwd --from-file=./weave-passwd
+	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/weave-net --server 127.0.0.1:8989
 	echo "Installing Kube-DNS"
 	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989
 	echo "Installing Heapster"
