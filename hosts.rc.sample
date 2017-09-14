@@ -1,7 +1,6 @@
 #./deploy.sh batch-run
 # Will deploy from top to bottom one by one
-
-#<role> <ip> <hostname/fqdn>
+# <role> <ip> <hostname/fqdn>
 etcd 10.0.0.121 etcd01
 
 master 10.0.0.101 master01

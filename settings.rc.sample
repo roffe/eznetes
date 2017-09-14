@@ -44,20 +44,20 @@ export POD_NETWORK=10.32.0.0/12
 # Each service will be assigned a cluster IP out of this range.
 # This must not overlap with any IP ranges assigned to the POD_NETWORK, or other existing network infrastructure.
 # Routing to these IPs is handled by a proxy service local to each node, and are not required to be routable between nodes.
-export SERVICE_IP_RANGE=10.3.0.0/22
+export SERVICE_IP_RANGE=10.40.0.0/22
 
 # The IP address of the Kubernetes API Service
 # If the SERVICE_IP_RANGE is changed above, this must be set to the first IP in that range.
-export K8S_SERVICE_IP=10.3.0.1
+export K8S_SERVICE_IP=10.40.0.1
 
 # The IP address of the cluster DNS service.
 # This IP must be in the range of the SERVICE_IP_RANGE and cannot be the first IP in the range.
 # This same IP must be configured on all worker nodes to enable DNS service discovery.
-export DNS_SERVICE_IP=10.3.0.10,10.3.0.11,10.3.0.12
+export DNS_SERVICE_IP=10.40.0.10,10.40.0.11,10.40.0.12
 
 # Experimental. Not fully implemented
 # Whether to use weave-net for Kubernetes CNI. If false flanneld will be used instead
-export USE_WEAVE=false
+export USE_WEAVE=true
 
 # Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
 export CONTAINER_RUNTIME=docker
