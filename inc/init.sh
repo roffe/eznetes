@@ -31,7 +31,7 @@ function init_k8s() {
 		-v ${PWD}/certs/apiserver/certs/apiserver-localhost.pem:/etc/ssl/apiserver.pem \
 		-v ${PWD}/certs/apiserver/certs/apiserver-localhost-key.pem:/etc/ssl/apiserver-key.pem \
 		-v ${PWD}/certs/controller/controller-key.pem:/etc/ssl/controller-key.pem \
-		-v ${PWD}/weave-passwd:/weave-passwd
+		-v ${PWD}/weave-passwd:/weave-passwd \
 		${HYPERKUBE_IMAGE_REPO}:$K8S_VER /hyperkube \
 		apiserver \
 		--etcd-cafile=/etc/ssl/ca.pem \
