@@ -15,6 +15,7 @@ function haproxy_backend_gen() {
 
 }
 
+
 local TEMPLATE=/etc/sysctl.d/nonlocal_bind.conf
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
