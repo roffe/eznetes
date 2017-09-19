@@ -85,6 +85,9 @@ spec:
   containers:
   - name: keepalived
     image: osixia/keepalived:1.3.6
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN"]
     env:
     - name: KEEPALIVED_VIRTUAL_IPS
       value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
