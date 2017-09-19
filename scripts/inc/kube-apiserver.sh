@@ -1,7 +1,7 @@
 #!bin/bash
 
 function haproxy_backend_gen() {
-	local arr=$(echo -n ${ETCD_ENDPOINTS} | tr "," "\n")
+	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
 	local NO=00
   for MASTER in $arr; do
 		NO=$((NO + 1))
