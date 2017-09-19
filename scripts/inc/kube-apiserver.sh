@@ -34,7 +34,6 @@ function keepalived_unicast_list {
 	echo -n ${RES} | sed 's/,$//'
 }
 
-
 local TEMPLATE=/etc/sysctl.d/nonlocal_bind.conf
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
@@ -178,30 +177,3 @@ $(oidc_settings)
       path: /usr/share/ca-certificates
     name: ssl-certs-host
 EOF
-
-if [ "${WEBHOOK_AUTH}" == "true" ]; then
-local TEMPLATE=/etc/kubernetes/webhook.yaml
-echo "TEMPLATE: $TEMPLATE"
-mkdir -p $(dirname $TEMPLATE)
-cat <<EOF >$TEMPLATE
-clusters:
-  - name: webhookauth
-    cluster:
-      certificate-authority: /etc/kubernetes/ssl
-      server: ${WEBHOOK_URL}
-
-users:
-  - name: webhook
-    user:
-      client-certificate-data: ${WEBHOOK_CERT}
-      client-key-data: ${WEBHOOK_KEY}
-
-current-context: webhook
-contexts:
-- context:
-    cluster: webhookauth
-    user: webhook
-  name: webhook
-EOF
-
-fi
