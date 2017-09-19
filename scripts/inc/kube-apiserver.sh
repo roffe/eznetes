@@ -50,7 +50,7 @@ timeout server 600000ms
 # stats uri /haproxy?stats
 
 frontend api_ssl
-${APISERVER_LBIP}:443
+bind ${APISERVER_LBIP}:443
 bind ${ADVERTISE_IP}:443
 bind 127.0.0.1:8443
 default_backend bk_api
