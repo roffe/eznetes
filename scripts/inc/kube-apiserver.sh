@@ -1,6 +1,6 @@
 #!bin/bash
 function oidc_settings {
-if [ "${WEBHOOK_AUTH}" == "true" ]; then
+if [ "${OIDC_AUTH}" == "true" ]; then
   echo '    - --oidc-issuer-url=${OIDC_URL}'
   echo '    - --oidc-client-id=example-app'
   echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
