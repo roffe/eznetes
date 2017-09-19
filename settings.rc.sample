@@ -78,6 +78,6 @@ export APISERVER_LBIP=10.0.0.100
 # Enable webhook authentication at the APIserver
 export OIDC_AUTH=false
 
-#Url to the webhook service, MUST BE HTTPS
-export WEBHOOK_URL=https://
+#Url to the webhook service, MUST BE HTTPS, Tested with DEX, Will use the same CA as for Kubernetes
+export OIDC_URL=https://<host>/dex
 
