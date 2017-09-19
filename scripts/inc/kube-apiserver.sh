@@ -15,6 +15,16 @@ function haproxy_backend_gen() {
 
 }
 
+function keepalived_unicast_list {
+	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
+	local NO=00
+	RES=$(for IP_N in $arr; do
+		NO=$((NO + 1))
+		echo -n "'${IP_N}',"
+	done)
+	echo -n ${RES} | sed 's/,$//'
+}
+
 
 local TEMPLATE=/etc/sysctl.d/nonlocal_bind.conf
 echo "TEMPLATE: $TEMPLATE"
@@ -73,13 +83,22 @@ metadata:
 spec:
   hostNetwork: true
   containers:
-  - name: kube-haproxy
+  - name: keepalived
+    image: osixia/keepalived:1.3.6
+    env:
+    - name: KEEPALIVED_VIRTUAL_IPS
+      value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
+    - name: KEEPALIVED_UNICAST_PEERS
+      value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
+    - name: KEEPALIVED_INTERFACE
+      value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
+  - name: haproxy
     image: haproxy:1.7-alpine
     volumeMounts:
     - mountPath: /usr/local/etc/haproxy/haproxy.cfg
       name: kube-haproxycfg
       readOnly: true 
-  - name: kube-apiserver
+  - name: apiserver
     image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
     command:
     - /hyperkube

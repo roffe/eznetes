@@ -70,7 +70,7 @@ export CONTAINER_RUNTIME=docker
 export MAX_PODS=70
 
 # FQDN & IP to apiserver LB
-# Used for apiserver certificate generation
+# Used for apiserver certificate generation & keepalived configuratin
 # Must be same as CONTROLLER_ENDPOINT as this is SAN's that will be inserted into the APISERVER cert
 export APISERVER_LBFQDN=k8s-apilb.example.com
 export APISERVER_LBIP=10.0.0.100
