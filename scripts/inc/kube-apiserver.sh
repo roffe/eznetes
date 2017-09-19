@@ -1,5 +1,65 @@
 #!bin/bash
 
+function haproxy_backend_gen() {
+	local arr=$(echo -n ${ETCD_ENDPOINTS} | tr "," "\n")
+	local NO=00
+  for MASTER in $arr; do
+		NO=$((NO + 1))
+		if [ "${MASTER}" == "${ADVERTISE_IP}" ]; then
+			local M_IP=127.0.01
+		else
+			local M_IP=${MASTER}
+		fi
+		echo "server api$(printf %02d ${NO}) ${M_IP}:443 check check-ssl verify none"
+	done
+
+}
+
+local TEMPLATE=/etc/sysctl.d/nonlocal_bind.conf
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
+net.ipv4.ip_nonlocal_bind=1
+EOF
+sudo sysctl -p ${TEMPLATE}
+
+local TEMPLATE=/etc/kubernetes/haproxy.cfg
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
+global
+maxconn 8192
+ssl-server-verify none
+defaults
+mode tcp
+timeout connect 5000ms
+timeout client 600000ms
+timeout server 600000ms
+
+# uncomment the following to enable haproxy stats webpage
+# frontend stats_8888
+# bind *:8888
+# mode http
+# maxconn 10
+# stats enable
+# stats hide-version
+# stats refresh 30s
+# stats show-node
+# stats auth admin:password
+# stats uri /haproxy?stats
+
+frontend api_ssl
+${APISERVER_LBIP}:443
+bind ${ADVERTISE_IP}:443
+bind 127.0.0.1:8443
+default_backend bk_api
+
+backend bk_api
+balance source
+default-server inter 3s fall 2
+$(haproxy_backend_gen)
+EOF
+
 local TEMPLATE=/etc/kubernetes/manifests/kube-apiserver.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
@@ -12,6 +72,12 @@ metadata:
 spec:
   hostNetwork: true
   containers:
+  - name: kube-haproxy
+    image: haproxy:1.7-alpine
+    volumeMounts:
+    - mountPath: /usr/local/etc/haproxy/haproxy.cfg
+      name: kube-haproxycfg
+      readOnly: true 
   - name: kube-apiserver
     image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
     command:
@@ -66,6 +132,9 @@ spec:
       name: "etc-ssl-etcd"
       readOnly: true
   volumes:
+  - hostPath:
+      path: /etc/kubernetes/haproxy.cfg
+    name: kube-haproxycfg
   - hostPath:
       path: /etc/kubernetes/ssl
     name: ssl-certs-kubernetes

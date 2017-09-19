@@ -24,6 +24,10 @@ export ETCD_PEER_PORT=2380
 # List of etcd servers (https://ip:port), comma separated
 export ETCD_ENDPOINTS=https://10.0.0.121:2379,https://10.0.0.122:2379,https://10.0.0.123:2379
 
+# Set the list of masters. comma separated IP ex: `10.0.0.1,10.0.0.2,10.0.0.3`
+# This list is used to configure API server loadbalander and Keepalived
+export K8S_MASTERS=10.0.0.1,10.0.0.2,10.0.0.3
+
 # The endpoint the worker node should use to contact controller nodes (https://ip:port)
 # In HA configurations this should be an external DNS record or loadbalancer in front of the control nodes.
 # However, it is also possible to point directly to a single control node.
