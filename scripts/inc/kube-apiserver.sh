@@ -1,7 +1,7 @@
 #!bin/bash
 function oidc_settings {
 if [ "${OIDC_AUTH}" == "true" ]; then
-  echo '    - --oidc-issuer-url=${OIDC_URL}'
+  echo "    - --oidc-issuer-url=${OIDC_URL}"
   echo '    - --oidc-client-id=example-app'
   echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
   echo '    - --oidc-username-claim=email'
