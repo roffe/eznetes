@@ -1,4 +1,13 @@
 #!bin/bash
+function oidc_settings {
+if [ "${WEBHOOK_AUTH}" == "true" ]; then
+  echo '    - --oidc-issuer-url=${OIDC_URL}'
+  echo '    - --oidc-client-id=example-app'
+  echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
+  echo '    - --oidc-username-claim=email'
+  echo '    - --oidc-groups-claim=groups'
+fi
+}
 
 function haproxy_backend_gen() {
 	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
@@ -123,13 +132,14 @@ spec:
     - --tls-private-key-file=/etc/kubernetes/ssl/apiserver-${NODE_HOSTNAME}-key.pem
     - --client-ca-file=/etc/kubernetes/ssl/ca.pem
     - --service-account-key-file=/etc/kubernetes/ssl/controller-key.pem
-    - --runtime-config=extensions/v1beta1/networkpolicies=true,batch/v2alpha1=true
+    - --runtime-config=extensions/v1beta1/networkpolicies=true,batch/v2alpha1=true,authentication.k8s.io/v1beta1=true
     - --anonymous-auth=false
     - --experimental-bootstrap-token-auth
     - --runtime-config=authentication.k8s.io/v1beta1=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --audit-log-path=-
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
+$(oidc_settings)
     livenessProbe:
       httpGet:
         host: 127.0.0.1
@@ -168,3 +178,30 @@ spec:
       path: /usr/share/ca-certificates
     name: ssl-certs-host
 EOF
+
+if [ "${WEBHOOK_AUTH}" == "true" ]; then
+local TEMPLATE=/etc/kubernetes/webhook.yaml
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
+clusters:
+  - name: webhookauth
+    cluster:
+      certificate-authority: /etc/kubernetes/ssl
+      server: ${WEBHOOK_URL}
+
+users:
+  - name: webhook
+    user:
+      client-certificate-data: ${WEBHOOK_CERT}
+      client-key-data: ${WEBHOOK_KEY}
+
+current-context: webhook
+contexts:
+- context:
+    cluster: webhookauth
+    user: webhook
+  name: webhook
+EOF
+
+fi
