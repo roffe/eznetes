@@ -45,6 +45,7 @@ spec:
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
     - --node-monitor-period=2s
     - --node-monitor-grace-period=16s
+    - --terminated-pod-gc-threshold=300
     - --pod-eviction-timeout=30s
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
     - --cluster-cidr=${POD_NETWORK}
