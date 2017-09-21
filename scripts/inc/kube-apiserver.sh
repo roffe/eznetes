@@ -2,7 +2,7 @@
 function oidc_settings {
 if [ "${OIDC_AUTH}" == "true" ]; then
   echo "    - --oidc-issuer-url=${OIDC_URL}"
-  echo '    - --oidc-client-id=example-app'
+  echo '    - --oidc-client-id=${OIDC_ID}'
   echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
   echo '    - --oidc-username-claim=email'
   echo '    - --oidc-groups-claim=groups'
@@ -91,24 +91,6 @@ metadata:
 spec:
   hostNetwork: true
   containers:
-  - name: keepalived
-    image: osixia/keepalived:1.3.6
-    securityContext:
-      capabilities:
-        add: ["NET_ADMIN"]
-    env:
-    - name: KEEPALIVED_VIRTUAL_IPS
-      value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
-    - name: KEEPALIVED_UNICAST_PEERS
-      value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
-    - name: KEEPALIVED_INTERFACE
-      value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
-  - name: haproxy
-    image: haproxy:1.7-alpine
-    volumeMounts:
-    - mountPath: /usr/local/etc/haproxy/haproxy.cfg
-      name: kube-haproxycfg
-      readOnly: true 
   - name: apiserver
     image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
     command:
@@ -163,6 +145,24 @@ $(oidc_settings)
     - mountPath: /etc/ssl/etcd
       name: "etc-ssl-etcd"
       readOnly: true
+  - name: keepalived
+    image: osixia/keepalived:1.3.6
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN"]
+    env:
+    - name: KEEPALIVED_VIRTUAL_IPS
+      value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
+    - name: KEEPALIVED_UNICAST_PEERS
+      value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
+    - name: KEEPALIVED_INTERFACE
+      value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
+  - name: haproxy
+    image: haproxy:1.7-alpine
+    volumeMounts:
+    - mountPath: /usr/local/etc/haproxy/haproxy.cfg
+      name: kube-haproxycfg
+      readOnly: true       
   volumes:
   - hostPath:
       path: /etc/kubernetes/haproxy.cfg
