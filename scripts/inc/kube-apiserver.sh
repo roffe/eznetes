@@ -138,7 +138,7 @@ spec:
     - --etcd-keyfile=/etc/ssl/etcd/client-key.pem
     - --etcd-servers=${ETCD_ENDPOINTS}
     - --allow-privileged=true
-    - --authorization-mode=Node,RBAC
+    - --authorization-mode=RBAC,Node
     - --service-cluster-ip-range=${SERVICE_IP_RANGE}
     - --secure-port=443
     - --advertise-address=${ADVERTISE_IP}
