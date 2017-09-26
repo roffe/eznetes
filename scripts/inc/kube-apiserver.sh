@@ -154,7 +154,7 @@ spec:
     - --runtime-config=authentication.k8s.io/v1beta1=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
-    - --audit-log-path=/var/log/audit/
+    - --audit-log-path=/var/log/audit/audit.log
     - --audit-log-maxage=7
 $(oidc_settings)
     livenessProbe:
