@@ -154,7 +154,8 @@ spec:
     - --runtime-config=authentication.k8s.io/v1beta1=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
-#    - --audit-log-path=-
+    - --audit-log-path=/var/log/audit
+    - --audit-log-maxage=7
 $(oidc_settings)
     livenessProbe:
       httpGet:
@@ -180,28 +181,10 @@ $(oidc_settings)
     - mountPath: /etc/ssl/etcd
       name: "etc-ssl-etcd"
       readOnly: true
-  - name: keepalived
-    image: osixia/keepalived:1.3.6
-    securityContext:
-      capabilities:
-        add: ["NET_ADMIN"]
-    env:
-    - name: KEEPALIVED_VIRTUAL_IPS
-      value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
-    - name: KEEPALIVED_UNICAST_PEERS
-      value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
-    - name: KEEPALIVED_INTERFACE
-      value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
-  - name: haproxy
-    image: haproxy:1.7-alpine
-    volumeMounts:
-    - mountPath: /usr/local/etc/haproxy/haproxy.cfg
-      name: kube-haproxycfg
-      readOnly: true       
+    - mountPath: /var/log/audit
+      name: "auditlogpath"
+      readOnly: false
   volumes:
-  - hostPath:
-      path: /etc/kubernetes/haproxy.cfg
-    name: kube-haproxycfg
   - hostPath:
       path: /etc/kubernetes/ssl
     name: ssl-certs-kubernetes
@@ -211,4 +194,7 @@ $(oidc_settings)
   - hostPath:
       path: /usr/share/ca-certificates
     name: ssl-certs-host
+  - hostPath:
+      path: /var/log/audit
+    name: auditlogpath
 EOF
