@@ -46,6 +46,7 @@ function init_config() {
 
 function init_templates() {
 	echo "Installing Templates"
+	source inc/kernel.sh
 	source inc/docker.sh
 	source inc/rkt.sh
 	source inc/kubelet-worker.sh

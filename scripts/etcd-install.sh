@@ -23,6 +23,7 @@ function etcd_initial_cluster_list() {
 
 function init_templates() {
 #	source inc/docker.sh
+	source inc/kernel.sh
 	source inc/etcd.sh
 #	source inc/rkt.sh
 #	source inc/kubelet-etcd.sh
