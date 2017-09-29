@@ -34,7 +34,7 @@ export K8S_MASTERS=10.0.0.1,10.0.0.2,10.0.0.3
 export CONTROLLER_ENDPOINT=https://k8s-apilb.example.com
 
 # Specify the version (vX.Y.Z) of Kubernetes assets to deploy
-export K8S_VER=v1.7.6
+export K8S_VER=v1.8.0
 
 # Hyperkube image repository to use.
 export HYPERKUBE_IMAGE_REPO=gcr.io/google_containers/hyperkube-amd64
