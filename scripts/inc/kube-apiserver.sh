@@ -150,7 +150,7 @@ spec:
     - --service-account-key-file=/etc/kubernetes/ssl/controller-key.pem
     - --runtime-config=extensions/v1beta1/networkpolicies=true,batch/v2alpha1=true,authentication.k8s.io/v1beta1=true
     - --anonymous-auth=false
-    - --experimental-bootstrap-token-auth
+    - --enable-bootstrap-token-auth
     - --runtime-config=authentication.k8s.io/v1beta1=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
