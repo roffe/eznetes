@@ -9,7 +9,7 @@ clusters:
 - name: local
   cluster:
     certificate-authority: /etc/kubernetes/ssl/ca.pem
-    server: https://127.0.0.1
+    server: https://127.0.0.1:8443
 users:
 - name: kubelet
   user:
@@ -55,7 +55,6 @@ ExecStartPre=/usr/bin/mkdir -p /etc/cni
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
-  --api-servers=https://127.0.0.1:8443 \
   --register-with-taints="node-role.kubernetes.io/master=:NoSchedule" \
   --cni-conf-dir=/etc/cni/net.d \
   --network-plugin=cni \
