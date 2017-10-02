@@ -20,7 +20,9 @@ function init_flannel() {
 
 # Start a insecure apiserver locally that we will use to add out first services & addons to kubernetes.
 function init_k8s() {
-	openssl rand -base64 32 > weave-passwd
+	if [ ! -f weave-passwd ]; then
+		openssl rand -base64 32 > weave-passwd
+	fi
 	create_apiserver_cert "127.0.0.1" "localhost"
 	echo "Starting local apiserver"
 	docker run --rm -d --name k8s-bootstrap \
