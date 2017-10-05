@@ -65,7 +65,7 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
   --rkt-path=/usr/bin/rkt \
-  --rkt-stage1-image=coreos.com/rkt/stage1-fly \
+  --rkt-stage1-image=coreos.com/rkt/stage1-coreos \
   --register-with-taints="node-role.kubernetes.io/etcd=:NoSchedule" \
   --register-node=true \
   --max-pods=${MAX_PODS} \
