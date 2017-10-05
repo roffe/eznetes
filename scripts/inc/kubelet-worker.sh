@@ -51,7 +51,7 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   --mount volume=var-log,target=/var/log \
   --volume etc-cni,kind=host,source=/etc/cni \
   --mount volume=etc-cni,target=/etc/cni \
-  --set-env=HOME=/root \
+  --environment=HOME=/root \
   ${CNI_OPTS}"
 ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
