@@ -37,6 +37,8 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   --uuid-file-save=${uuid_file} \
   --volume dns,kind=host,source=/etc/resolv.conf \
   --mount volume=dns,target=/etc/resolv.conf \
+  --volume dockercfg,kind=host,source=/etc/docker/config.json \
+  --mount volume=dockercfg,target=/.dockercfg \
   --volume rkt,kind=host,source=/opt/bin/host-rkt \
   --mount volume=rkt,target=/usr/bin/rkt \
   --volume var-lib-rkt,kind=host,source=/var/lib/rkt \
