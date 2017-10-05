@@ -24,7 +24,6 @@ users:
   user:
     token: $(cat bootstraptoken.csv | cut -d ',' -f1)
 EOF
-
 local TEMPLATE=/etc/systemd/system/kubelet.service
 local uuid_file="/var/run/kubelet-pod.uuid"
 echo "TEMPLATE: $TEMPLATE"
@@ -54,8 +53,8 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   --volume etc-cni,kind=host,source=/etc/cni \
   --mount volume=etc-cni,target=/etc/cni \
   ${CNI_OPTS}"
-ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
+ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
 ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin

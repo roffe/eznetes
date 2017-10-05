@@ -54,10 +54,11 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   ${CNI_OPTS}"
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
 ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
-ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
-ExecStartPre=/usr/bin/mkdir -p /etc/cni
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
+ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStartPre=-/usr/bin/rkt rm --uuid-file=${uuid_file}
+ExecStartPre=/usr/bin/mkdir -p /etc/cni
+ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --register-with-taints="node-role.kubernetes.io/master=:NoSchedule" \
   --cni-conf-dir=/etc/cni/net.d \
