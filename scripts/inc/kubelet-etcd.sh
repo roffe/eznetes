@@ -32,6 +32,7 @@ mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
 [Service]
 Environment=KUBELET_IMAGE_TAG=${K8S_VER}
+Environment="KUBELET_IMAGE_ARGS=--environment=home=/root" \
 Environment=KUBELET_IMAGE_URL=docker://${HYPERKUBE_IMAGE_REPO}
 Environment="RKT_RUN_ARGS=--insecure-options=image \
   --uuid-file-save=${uuid_file} \
@@ -51,7 +52,6 @@ Environment="RKT_RUN_ARGS=--insecure-options=image \
   --mount volume=var-log,target=/var/log \
   --volume etc-cni,kind=host,source=/etc/cni \
   --mount volume=etc-cni,target=/etc/cni \
-  --environment=home=/root \
   ${CNI_OPTS}"
 ExecStartPre=/usr/bin/mkdir -p /var/lib/cni
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
