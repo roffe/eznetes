@@ -32,7 +32,7 @@ mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
 [Service]
 Environment=KUBELET_IMAGE_TAG=${K8S_VER}
-Environment="KUBELET_IMAGE_ARGS=--environment=home=/root \
+Environment="KUBELET_IMAGE_ARGS=--environment=HOME=/root \
   --exec=/kubelet"
 Environment=KUBELET_IMAGE_URL=docker://${HYPERKUBE_IMAGE_REPO}
 Environment="RKT_RUN_ARGS=--insecure-options=image \
