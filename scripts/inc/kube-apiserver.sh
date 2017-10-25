@@ -82,51 +82,36 @@ local TEMPLATE=/etc/kubernetes/manifests/kube-apilb.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
-apiVersion: apps/v1beta2
-kind: DaemonSet
+apiVersion: v1
+kind: Pod
 metadata:
   name: kube-apilb
   namespace: kube-system
 spec:
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-  selector:
-    matchLabels:
-      k8s-app: kube-apilb
-  template:
-    metadata:
-      labels:
-        k8s-app: kube-apilb
-    spec:
-      containers:
-      - name: keepalived
-        image: osixia/keepalived:1.3.6
-        securityContext:
-          capabilities:
-            add: ["NET_ADMIN"]
-        env:
-        - name: KEEPALIVED_VIRTUAL_IPS
-          value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
-        - name: KEEPALIVED_UNICAST_PEERS
-          value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
-        - name: KEEPALIVED_INTERFACE
-          value: "eth0"
-      - name: haproxy
-        image: haproxy:1.7-alpine
-        volumeMounts:
-        - mountPath: /usr/local/etc/haproxy/haproxy.cfg
-          name: kube-haproxycfg
-          readOnly: true       
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-      volumes:
-      - hostPath:
-          path: /etc/kubernetes/haproxy.cfg
-        name: kube-haproxycfg
+  hostNetwork: true
+  containers:
+  - name: keepalived
+    image: osixia/keepalived:1.3.6
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN"]
+    env:
+    - name: KEEPALIVED_VIRTUAL_IPS
+      value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
+    - name: KEEPALIVED_UNICAST_PEERS
+      value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
+    - name: KEEPALIVED_INTERFACE
+      value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
+  - name: haproxy
+    image: haproxy:1.7-alpine
+    volumeMounts:
+    - mountPath: /usr/local/etc/haproxy/haproxy.cfg
+      name: kube-haproxycfg
+      readOnly: true       
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/haproxy.cfg
+    name: kube-haproxycfg
 EOF
 
 local TEMPLATE=/etc/kubernetes/manifests/kube-apiserver.yaml
