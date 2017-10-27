@@ -148,7 +148,7 @@ spec:
     - --tls-private-key-file=/etc/kubernetes/ssl/apiserver-${NODE_HOSTNAME}-key.pem
     - --client-ca-file=/etc/kubernetes/ssl/ca.pem
     - --service-account-key-file=/etc/kubernetes/ssl/controller-key.pem
-    - --runtime-config=extensions/v1beta1/networkpolicies=true,batch/v2alpha1=true,authentication.k8s.io/v1beta1=true
+    - --runtime-config=extensions/v1beta1/networkpolicies=true,authentication.k8s.io/v1beta1=true
     - --anonymous-auth=false
     - --enable-bootstrap-token-auth
     - --runtime-config=authentication.k8s.io/v1beta1=true
