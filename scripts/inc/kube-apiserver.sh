@@ -91,7 +91,7 @@ spec:
   hostNetwork: true
   containers:
   - name: keepalived
-    image: osixia/keepalived:1.3.6
+    image: osixia/keepalived:1.3.9
     securityContext:
       capabilities:
         add: ["NET_ADMIN"]
