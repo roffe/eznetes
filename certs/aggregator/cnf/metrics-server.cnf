@@ -1,0 +1,13 @@
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = metrics-server
+DNS.2 = metrics-server.kube-system
+DNS.3 = metrics-server.kube-system.svc
+DNS.4 = metrics-server.kube-system.svc.cluster.local

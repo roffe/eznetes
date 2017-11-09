@@ -52,6 +52,7 @@ spec:
     - --service-cluster-ip-range=${SERVICE_IP_RANGE}
     - --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem
     - --cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem
+    - --horizontal-pod-autoscaler-use-rest-clients=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --kubeconfig=/etc/kubernetes/controller-kubeconfig.yaml
     resources:
