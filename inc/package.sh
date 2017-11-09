@@ -22,7 +22,7 @@ function build_package() {
 		echo "Building master package"
 		mkdir -p ${TMPDIR}/ssl
 		cp -v certs/ca/ca*.pem ${TMPDIR}/ssl/
-		cp -v certs/aggregator/certs/ca-aggregator.crt 
+		cp -v certs/aggregator/certs/ca-aggregator.crt ${TMPDIR}/ssl/
 		cp -v certs/aggregator/certs/proxy-client-key.pem ${TMPDIR}/ssl/
 		cp -v certs/aggregator/certs/proxy-client.pem ${TMPDIR}/ssl/
 		cp -v certs/node/${NODE_HOSTNAME}*.pem ${TMPDIR}/ssl/
