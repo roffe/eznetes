@@ -161,8 +161,8 @@ spec:
     - --requestheader-extra-headers-prefix=X-Remote-Extra-
     - --requestheader-group-headers=X-Remote-Group
     - --requestheader-username-headers=X-Remote-User
-    - --proxy-client-cert-file=/etc/kubernetes/ssl/aggregator.pem
-    - --proxy-client-key-file=/etc/kubernetes/ssl/aggregator-key.pem
+    - --proxy-client-cert-file=/etc/kubernetes/ssl/proxy-client.pem
+    - --proxy-client-key-file=/etc/kubernetes/ssl/proxy-client-key.pem
 $(oidc_settings)
     livenessProbe:
       httpGet:
