@@ -156,7 +156,7 @@ spec:
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
     - --audit-log-path=/var/log/audit/audit.log
     - --audit-log-maxage=7
-    - --requestheader-client-ca-file=/etc/kubernetes/ssl/ca.pem
+    - --requestheader-client-ca-file=/etc/kubernetes/ssl/ca-aggregator.crt
     - --requestheader-allowed-names=aggregator
     - --requestheader-extra-headers-prefix=X-Remote-Extra-
     - --requestheader-group-headers=X-Remote-Group
