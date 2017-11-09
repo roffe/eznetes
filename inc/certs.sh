@@ -1,13 +1,5 @@
 #!/bin/bash
 
-function check_ca_exist() {
-	if [[ ! -f certs/ca/ca.pem ]] || [[ ! -f certs/ca/ca-key.pem ]]; then
-		echo "Missing ca.pem or ca-key.pem, Please run: ${0} create-ca"
-		exit 1
-		# create_ca
-	fi
-}
-
 function create_admin_cert() {
 	local CN=${1:-admin}
 	local O=${2:-system:masters}
@@ -20,28 +12,35 @@ function create_admin_cert() {
 }
 
 function create_metrics-server_cert() {
-	mkdir -p certs/metrics-server/certs
+	mkdir -p certs/aggregator/certs
 	
 	if [ ! -f "certs/aggregator/certs/ca-aggregator.key" ]; then
 		openssl req -x509 -sha256 -new -nodes -days 3650 -newkey rsa:2048 -keyout certs/aggregator/certs/ca-aggregator.key -out certs/aggregator/certs/ca-aggregator.crt -subj "/CN=ca"
 	else
 		echo "ca-aggregator.key already exists, skipping"
 	fi
-	
+
 	export PURPOSE=server
 	echo '{"signing":{"default":{"expiry":"43800h","usages":["signing","key encipherment","'${PURPOSE}'"]}}}' > "certs/aggregator/certs/${PURPOSE}-ca-config.json"
 	export SERVICE_NAME=metrics-server
 	export ALT_NAMES='"metrics-server.kube-system","metrics-server.kube-system.svc","metrics-server.kube-system.svc.cluster.local"'
 	
+	if [ ! -f "certs/aggregator/certs/metrics-server-key.pem" ]; then
 	echo '{"CN":"'${SERVICE_NAME}'","hosts":['${ALT_NAMES}'],"key":{"algo":"rsa","size":2048}}' | \
 		cfssl gencert -ca=certs/aggregator/certs/ca-aggregator.crt -ca-key=certs/aggregator/certs/ca-aggregator.key -config=certs/aggregator/certs/${PURPOSE}-ca-config.json - | \
 		cfssljson -bare certs/aggregator/certs/metrics-server
-	
+	else
+		echo "metrics-server-key.pem already exists, skipping!"
+	fi
+
+	if [ ! -f "certs/aggregator/certs/proxy-client-key.pem" ]; then
 	echo '{"key":{"algo":"rsa","size":2048}}' | \
 		cfssl gencert -ca=certs/aggregator/certs/ca-aggregator.crt -ca-key=certs/aggregator/certs/ca-aggregator.key -config=certs/aggregator/certs/server-ca-config.json - | \
 		cfssljson -bare certs/aggregator/certs/proxy-client
+	else
+		echo "proxy-client-key.pem already exists, skipping!"
+	fi
 }
-
 
 function create_apiserver_cert() {
 	mkdir -p certs/apiserver/certs

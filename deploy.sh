@@ -41,6 +41,14 @@ function batch_run() {
 	fi
 }
 
+function check_ca_exist() {
+	if [[ ! -f certs/ca/ca.pem ]] || [[ ! -f certs/ca/ca-key.pem ]]; then
+		echo "Missing ca.pem or ca-key.pem, Please run: ${0} create-ca"
+		exit 1
+		# create_ca
+	fi
+}
+
 function deploy_exit() {
 	# Cleanup and remove TMPDIR
 	rm -rf ${TMPDIR}
@@ -173,7 +181,7 @@ cert)
 	metrics-server)
 		create_metrics-server_cert
 		;;
-		
+
 	*)
 		usage ${1}
 		;;

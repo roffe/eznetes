@@ -1,6 +1,7 @@
 #!/bin/bash
 function master_deploy() {
 	check_ca_exist
+	create_metrics-server_cert
 	create_apiserver_cert ${1} ${2}
 	create_controller_cert
 	create_proxy_cert
