@@ -34,7 +34,7 @@ function create_metrics-server_cert() {
 	fi
 
 	if [ ! -f "certs/aggregator/certs/proxy-client-key.pem" ]; then
-	echo '{"key":{"algo":"rsa","size":2048}}' | \
+	echo '{"CN":"'aggregator'","key":{"algo":"rsa","size":2048}}' | \
 		cfssl gencert -ca=certs/aggregator/certs/ca-aggregator.crt -ca-key=certs/aggregator/certs/ca-aggregator.key -config=certs/aggregator/certs/server-ca-config.json - | \
 		cfssljson -bare certs/aggregator/certs/proxy-client
 	else
