@@ -108,6 +108,9 @@ spec:
     - mountPath: /var/run/dbus
       name: dbus
       readOnly: false
+    - mountPath: /lib/modules
+      name: libmodules
+      readOnly: true
   volumes:
   - name: "ssl-certs"
     hostPath:
@@ -124,4 +127,7 @@ spec:
   - hostPath:
       path: /var/run/dbus
     name: dbus
+  - hostPath:
+      path: /lib/modules/
+    name: /lib/modules/
 EOF
