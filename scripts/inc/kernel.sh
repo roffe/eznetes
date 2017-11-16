@@ -11,7 +11,7 @@ ip_vs_wrr
 ip_vs_sh
 nf_conntrack_ipv4
 EOF
-systemctl start systemd-modules-load.service
+systemctl restart systemd-modules-load.service
 
 local TEMPLATE=/etc/sysctl.d/kubernetes.conf
 echo "TEMPLATE: $TEMPLATE"
