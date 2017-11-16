@@ -82,8 +82,8 @@ spec:
     - proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --config=/etc/kubernetes/kube-proxy.yaml
-    - --feature-gates=SupportIPVSProxyMode=true
-    - --proxy-mode=ipvs
+#    - --feature-gates=SupportIPVSProxyMode=true
+#    - --proxy-mode=ipvs
     securityContext:
       privileged: true
     livenessProbe:
@@ -109,10 +109,7 @@ spec:
       name: dbus
       readOnly: false
     - mountPath: /lib/modules
-      name: libmodules
-      readOnly: true
-    - mountPath: /proc/modules
-      name: procmodules
+      name: lib-modules
       readOnly: true
   volumes:
   - name: "ssl-certs"
@@ -132,8 +129,5 @@ spec:
     name: dbus
   - hostPath:
       path: /lib/modules
-    name: libmodules
-  - hostPath:
-      path: /proc/modules
-    name: procmodules
+    name: lib-modules
 EOF
