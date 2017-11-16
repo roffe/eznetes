@@ -128,6 +128,6 @@ spec:
       path: /var/run/dbus
     name: dbus
   - hostPath:
-      path: /lib/modules/
-    name: /lib/modules/
+      path: /lib/modules
+    name: libmodules
 EOF
