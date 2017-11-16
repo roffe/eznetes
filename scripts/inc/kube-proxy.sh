@@ -21,7 +21,7 @@ conntrack:
   tcpCloseWaitTimeout: 1h0m0s
   tcpEstablishedTimeout: 24h0m0s
 enableProfiling: false
-featureGates: ""
+featureGates: "SupportIPVSProxyMode=true"
 healthzBindAddress: 0.0.0.0:10256
 hostnameOverride: "${ADVERTISE_IP}"
 iptables:
@@ -31,7 +31,7 @@ iptables:
   syncPeriod: 30s
 kind: KubeProxyConfiguration
 metricsBindAddress: 127.0.0.1:10249
-mode: ""
+mode: "ipvs"
 oomScoreAdj: -999
 portRange: ""
 resourceContainer: /kube-proxy
@@ -82,8 +82,6 @@ spec:
     - proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --config=/etc/kubernetes/kube-proxy.yaml
-#    - --feature-gates=SupportIPVSProxyMode=true
-#    - --proxy-mode=ipvs
     securityContext:
       privileged: true
     livenessProbe:
