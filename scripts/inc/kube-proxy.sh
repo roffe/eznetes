@@ -32,7 +32,7 @@ iptables:
 ipvs:
   minSyncPeriod: 0s
   scheduler: ""
-  syncPeriod: 0s
+  syncPeriod: 15s
 kind: KubeProxyConfiguration
 metricsBindAddress: 127.0.0.1:10249
 mode: ipvs
