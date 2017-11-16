@@ -111,6 +111,9 @@ spec:
     - mountPath: /lib/modules
       name: libmodules
       readOnly: true
+    - mountPath: /proc/modules
+      name: procmodules
+      readOnly: true
   volumes:
   - name: "ssl-certs"
     hostPath:
@@ -130,4 +133,7 @@ spec:
   - hostPath:
       path: /lib/modules
     name: libmodules
+  - hostPath:
+      path: /proc/modules
+    name: procmodules
 EOF
