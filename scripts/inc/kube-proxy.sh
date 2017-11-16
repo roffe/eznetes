@@ -88,6 +88,9 @@ spec:
     - --config=/etc/kubernetes/kube-proxy.yaml
     securityContext:
       privileged: true
+    env:
+    - name: CREATED
+      value: $(date +%s)
     livenessProbe:
       httpGet:
         host: 127.0.0.1
