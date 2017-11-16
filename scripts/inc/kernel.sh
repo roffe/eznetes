@@ -1,6 +1,17 @@
 #!/bin/bash
 
 # Kernel tweaks
+local TEMPLATE=/etc/modules-load.d/ipvs.conf
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
+ip_vs
+ip_vs_rr
+ip_vs_wrr
+ip_vs_sh
+nf_conntrack_ipv4
+EOF
+sudo sysctl -p ${TEMPLATE}
 
 local TEMPLATE=/etc/sysctl.d/kubernetes.conf
 echo "TEMPLATE: $TEMPLATE"

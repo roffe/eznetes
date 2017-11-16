@@ -90,7 +90,7 @@ spec:
       privileged: true
     env:
     - name: CREATED
-      value: $(date +%s)
+      value: "$(date +%s)"
     livenessProbe:
       httpGet:
         host: 127.0.0.1
