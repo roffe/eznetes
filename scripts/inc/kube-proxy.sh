@@ -82,6 +82,8 @@ spec:
     - proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --config=/etc/kubernetes/kube-proxy.yaml
+    - --feature-gates=SupportIPVSProxyMode=true
+    - --proxy-mode=ipvs
     securityContext:
       privileged: true
     livenessProbe:
