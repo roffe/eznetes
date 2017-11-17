@@ -5,6 +5,7 @@ echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
 apiVersion: componentconfig/v1alpha1
+kind: KubeProxyConfiguration
 bindAddress: 0.0.0.0
 clientConnection:
   acceptContentTypes: ""
@@ -31,9 +32,8 @@ iptables:
   syncPeriod: 30s
 ipvs:
   minSyncPeriod: 0s
-  scheduler: ""
+  scheduler: "rr"
   syncPeriod: 15s
-kind: KubeProxyConfiguration
 metricsBindAddress: 127.0.0.1:10249
 mode: ipvs
 oomScoreAdj: -999
