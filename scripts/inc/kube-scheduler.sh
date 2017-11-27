@@ -40,7 +40,7 @@ spec:
     command:
     - /hyperkube
     - scheduler
-    - --master=https://127.0.0.1
+    - --master=https://${ADVERTISE_IP}
     - --leader-elect=true
     - --kubeconfig=/etc/kubernetes/scheduler-kubeconfig.yaml
     resources:

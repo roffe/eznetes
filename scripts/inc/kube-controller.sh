@@ -38,7 +38,7 @@ spec:
     command:
     - /hyperkube
     - controller-manager
-    - --master=https://127.0.0.1
+    - --master=https://${ADVERTISE_IP}
     - --leader-elect=true
     - --service-account-private-key-file=/etc/kubernetes/ssl/controller-key.pem
     - --use-service-account-credentials
