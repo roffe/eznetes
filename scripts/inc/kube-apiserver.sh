@@ -158,7 +158,7 @@ spec:
     - --anonymous-auth=false
     - --enable-bootstrap-token-auth
     - --runtime-config=authentication.k8s.io/v1beta1=true
-    - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
+    - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true,AdvancedAuditing=false
     - --token-auth-file=/etc/kubernetes/ssl/bootstraptoken.csv
     - --audit-log-path=/var/log/audit/audit.log
     - --audit-log-maxage=7
