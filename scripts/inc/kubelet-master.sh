@@ -9,7 +9,7 @@ clusters:
 - name: local
   cluster:
     certificate-authority: /etc/kubernetes/ssl/ca.pem
-    server: https://127.0.0.1
+    server: https://${ADVERTISE_IP}
 users:
 - name: kubelet
   user:
