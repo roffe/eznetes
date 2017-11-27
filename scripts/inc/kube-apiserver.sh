@@ -9,13 +9,17 @@ if [ "${OIDC_AUTH}" == "true" ]; then
 fi
 }
 
+function get_no_apiservers {
+  echo -n "${K8S_MASTERS}"|awk -F',' '{print NF}'
+}
+
 function haproxy_backend_gen() {
 	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
 	local NO=00
   for MASTER in $arr; do
 		NO=$((NO + 1))
 		if [ "${MASTER}" == "${ADVERTISE_IP}" ]; then
-			local M_IP=127.0.01
+			local M_IP=127.0.0.1
 		else
 			local M_IP=${MASTER}
 		fi
@@ -131,7 +135,7 @@ spec:
     command:
     - /hyperkube
     - apiserver
-    - --apiserver-count=1
+    - --apiserver-count=$(get_no_apiservers)
     - --bind-address=127.0.0.1
     - --etcd-cafile=/etc/kubernetes/ssl/ca.pem
     - --etcd-certfile=/etc/ssl/etcd/client.pem
