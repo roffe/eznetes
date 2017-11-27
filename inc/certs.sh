@@ -68,8 +68,8 @@ function create_apiserver_cert() {
 		if [ ! -f "certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem" ]; then
 			echo "Generating apiserver cert"
 			gen_ip_sans_apiserver
-			APISERVER_FQDN=${2} APISERVER_LBIP=${APISERVER_LBIP} APISERVER_LBFQDN=${APISERVER_HOSTNAME} openssl req -new -key certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}-key.pem -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -subj "/CN=kube-apiserver" -config certs/apiserver/cnf/apiserver.cnf
-			APISERVER_FQDN=${2} APISERVER_LBIP=${APISERVER_LBIP} APISERVER_LBFQDN=${APISERVER_HOSTNAME} openssl x509 -req -in certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem -days 3650 -extensions v3_req -extfile certs/apiserver/cnf/apiserver.cnf
+			APISERVER_FQDN=${2} APISERVER_LBIP=${APISERVER_LBIP} APISERVER_LBFQDN=${APISERVER_LBFQDN} openssl req -new -key certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}-key.pem -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -subj "/CN=kube-apiserver" -config certs/apiserver/cnf/apiserver.cnf
+			APISERVER_FQDN=${2} APISERVER_LBIP=${APISERVER_LBIP} APISERVER_LBFQDN=${APISERVER_LBFQDN} openssl x509 -req -in certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem -days 3650 -extensions v3_req -extfile certs/apiserver/cnf/apiserver.cnf
 			rm -f certs/apiserver/cnf/apiserver.cnf
 		else
 			echo "apiserver-${APISERVER_HOSTNAME}.pem exists, skipping creation"
