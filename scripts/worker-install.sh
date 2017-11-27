@@ -5,11 +5,12 @@ mkdir -p /etc/ssl/etcd
 
 mkdir -p /etc/kubernetes/ssl
 
-mv ssl/client* /etc/ssl/etcd/
+cp ssl/client* /etc/ssl/etcd/
+rm ssl/client*
 
 cp ssl/ca.pem /etc/ssl/etcd/
 
-mv ssl/* /etc/kubernetes/ssl/
+cp ssl/* /etc/kubernetes/ssl/
 
 chmod 600 /etc/ssl/etcd/*-key.pem
 chmod 600 /etc/kubernetes/ssl/*-key.pem
