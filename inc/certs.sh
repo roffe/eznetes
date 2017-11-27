@@ -1,4 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+function gen_ip_sans_apiserver {
+	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
+	local NO=3
+	cp certs/apiserver/cnf/apiserver.tmpl certs/apiserver/cnf/apiserver.cnf
+  for MASTER in $arr; do
+		NO=$((NO + 1))
+		echo "IP.${NO} =  ${MASTER}" >> certs/apiserver/cnf/apiserver.cnf
+  done
+}
 
 function create_admin_cert() {
 	local CN=${1:-admin}
@@ -57,8 +67,10 @@ function create_apiserver_cert() {
 
 		if [ ! -f "certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem" ]; then
 			echo "Generating apiserver cert"
-			APISERVER_IP=${1} APISERVER_FQDN=${2} APISERVER_HOSTNAME=${APISERVER_HOSTNAME} APISERVER_LBFQDN=${APISERVER_LBFQDN} APISERVER_LBIP=${APISERVER_LBIP} openssl req -new -key certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}-key.pem -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -subj "/CN=kube-apiserver" -config certs/apiserver/cnf/apiserver.cnf
-			APISERVER_IP=${1} APISERVER_FQDN=${2} APISERVER_HOSTNAME=${APISERVER_HOSTNAME} APISERVER_LBFQDN=${APISERVER_LBFQDN} APISERVER_LBIP=${APISERVER_LBIP} openssl x509 -req -in certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem -days 3650 -extensions v3_req -extfile certs/apiserver/cnf/apiserver.cnf
+			gen_ip_sans_apiserver
+			APISERVER_FQDN=${2} APISERVER_HOSTNAME=${APISERVER_HOSTNAME} APISERVER_LBFQDN=${APISERVER_LBFQDN} APISERVER_LBIP=${APISERVER_LBIP} openssl req -new -key certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}-key.pem -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -subj "/CN=kube-apiserver" -config certs/apiserver/cnf/apiserver.cnf
+			APISERVER_FQDN=${2} APISERVER_HOSTNAME=${APISERVER_HOSTNAME} APISERVER_LBFQDN=${APISERVER_LBFQDN} APISERVER_LBIP=${APISERVER_LBIP} openssl x509 -req -in certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca-key.pem -CAcreateserial -out certs/apiserver/certs/apiserver-${APISERVER_HOSTNAME}.pem -days 3650 -extensions v3_req -extfile certs/apiserver/cnf/apiserver.cnf
+			rm -f certs/apiserver/cnf/apiserver.cnf
 		else
 			echo "apiserver-${APISERVER_HOSTNAME}.pem exists, skipping creation"
 		fi
