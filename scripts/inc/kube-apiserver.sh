@@ -100,6 +100,8 @@ spec:
       capabilities:
         add: ["NET_ADMIN"]
     env:
+    - name: CREATED
+      value: "$(date +%s)"
     - name: KEEPALIVED_VIRTUAL_IPS
       value: "#PYTHON2BASH:['${APISERVER_LBIP}']"
     - name: KEEPALIVED_UNICAST_PEERS
@@ -168,6 +170,9 @@ spec:
     - --proxy-client-cert-file=/etc/kubernetes/ssl/proxy-client.pem
     - --proxy-client-key-file=/etc/kubernetes/ssl/proxy-client-key.pem
 $(oidc_settings)
+    env:
+    - name: CREATED
+      value: "$(date +%s)"
     livenessProbe:
       httpGet:
         host: 127.0.0.1
