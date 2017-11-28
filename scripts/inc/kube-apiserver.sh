@@ -1,34 +1,35 @@
 #!bin/bash
-function oidc_settings {
-if [ "${OIDC_AUTH}" == "true" ]; then
-  echo "    - --oidc-issuer-url=${OIDC_URL}"
-  echo "    - --oidc-client-id=${OIDC_ID}"
-  echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
-  echo '    - --oidc-username-claim=email'
-  echo '    - --oidc-groups-claim=groups'
-fi
+function oidc_settings() {
+	if [ "${OIDC_AUTH}" == "true" ]; then
+		echo "    - --oidc-issuer-url=${OIDC_URL}"
+		echo "    - --oidc-client-id=${OIDC_ID}"
+		echo '    - --oidc-ca-file=/etc/kubernetes/ssl/ca.pem'
+		echo '    - --oidc-username-claim=email'
+		echo '    - --oidc-groups-claim=groups'
+	fi
 }
 
-function get_no_apiservers {
-  echo -n "${K8S_MASTERS}"|awk -F',' '{print NF}'
+function get_no_apiservers() {
+	echo -n "${K8S_MASTERS}" | awk -F',' '{print NF}'
 }
 
 function haproxy_backend_gen() {
 	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
 	local NO=00
-  for MASTER in $arr; do
+	for MASTER in $arr; do
 		NO=$((NO + 1))
 		if [ "${MASTER}" == "${ADVERTISE_IP}" ]; then
 			local M_IP=127.0.0.1
+			local WEIGHT=100
 		else
 			local M_IP=${MASTER}
+			local WEIGHT=80
 		fi
-		echo "server api$(printf %02d ${NO}) ${M_IP}:443 check check-ssl verify none"
+		echo "server api$(printf %02d ${NO}) ${M_IP}:443 check check-ssl verify none weight ${WEIGHT}"
 	done
-
 }
 
-function keepalived_unicast_list {
+function keepalived_unicast_list() {
 	local arr=$(echo -n ${K8S_MASTERS} | tr "," "\n")
 	local NO=00
 	RES=$(for IP_N in $arr; do
@@ -95,7 +96,7 @@ spec:
   hostNetwork: true
   containers:
   - name: keepalived
-    image: osixia/keepalived:1.3.9
+    image: roffe/docker-keepalived:latest
     securityContext:
       capabilities:
         add: ["NET_ADMIN"]
@@ -108,6 +109,18 @@ spec:
       value: "#PYTHON2BASH:[$(keepalived_unicast_list)]"
     - name: KEEPALIVED_INTERFACE
       value: $(echo -n $(ifconfig | grep -B1 "inet ${ADVERTISE_IP}" | awk '$1!="inet" && $1!="--" {print $1}' | tr -d ':'))
+    - name: KEEPALIVED_CHECK_HOST
+      value: "https://127.0.0.1"
+    - name: KEEPALIVED_CHECK
+      value: "true"
+    - name: KEEPALIVED_CHECK_TYPE
+      value: "curl"
+    - name: KEEPALIVED_CHECK_CURL_OPTS
+      value: "-k"
+    - name: KEEPALIVED_CHECK_CURL_MAX_TIME
+      value: "1"
+    - name: KEEPALIVED_CHECK_INTERVAL
+      vaule: "4"
   - name: haproxy
     image: haproxy:1.7-alpine
     volumeMounts:
