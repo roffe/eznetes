@@ -10,4 +10,4 @@ subjectAltName = @alt_names
 DNS.1 = metrics-server
 DNS.2 = metrics-server.kube-system
 DNS.3 = metrics-server.kube-system.svc
-DNS.4 = metrics-server.kube-system.svc.cluster.local
+DNS.4 = metrics-server.kube-system.svc.$ENV::CLUSTER_DOMAIN
