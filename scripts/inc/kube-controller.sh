@@ -48,6 +48,7 @@ spec:
     - --terminated-pod-gc-threshold=300
     - --pod-eviction-timeout=30s
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
+    - --allocate-node-cidrs=true
     - --cluster-cidr=${POD_NETWORK}
     - --service-cluster-ip-range=${SERVICE_IP_RANGE}
     - --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem
