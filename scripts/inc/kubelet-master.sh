@@ -62,7 +62,7 @@ ExecStartPre=/usr/bin/mkdir -p /opt/cni/bin
 ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --register-with-taints="node-role.kubernetes.io/master=:NoSchedule" \
   --cni-conf-dir=/etc/cni/net.d \
-  --network-plugin=bridge \
+  --network-plugin=cni \
   --container-runtime=${CONTAINER_RUNTIME} \
   --rkt-path=/usr/bin/rkt \
   --rkt-stage1-image=coreos.com/rkt/stage1-fly \
