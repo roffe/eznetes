@@ -23,19 +23,14 @@ source settings.rc
 # -------------
 
 function init_config() {
-	local REQUIRED=('ADVERTISE_IP' 'ETCD_ENDPOINTS' 'CONTROLLER_ENDPOINT' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'USE_WEAVE' 'MAX_PODS')
+	local REQUIRED=('ADVERTISE_IP' 'ETCD_ENDPOINTS' 'CONTROLLER_ENDPOINT' 'DNS_SERVICE_IP' 'K8S_VER' 'HYPERKUBE_IMAGE_REPO' 'MAX_PODS')
 
 	if [ -z $MAX_PODS ]; then
 		# Number of Pods that can run on this Kubelet. (default 110)
 		export MAX_PODS=110
 	fi
 	
-	if [ "${USE_WEAVE}" = "true" ]; then
-		export CNI_OPTS="--volume=opt-cni,kind=host,source=/opt/cni,readOnly=true \
-                         --mount volume=opt-cni,target=/opt/weave-net"
-	else
-		export CNI_OPTS=""
-	fi
+	export CNI_OPTS=""
 
 	for REQ in "${REQUIRED[@]}"; do
 		if [ -z "$(eval echo \$$REQ)" ]; then
@@ -51,10 +46,7 @@ function init_templates() {
 	source inc/docker.sh
 	source inc/rkt.sh
 	source inc/kubelet-worker.sh
-	source inc/kube-proxy.sh
-	if [ "${USE_WEAVE}" = "false" ]; then
-		source inc/flannel.sh
-	fi
+#   source inc/kube-proxy.sh
 }
 
 init_config
@@ -74,17 +66,6 @@ else
 	echo "Starting & enabling Docker"
 	systemctl enable docker
 	systemctl start docker
-fi
-
-if [ "${USE_WEAVE}" = "false" ]; then
-	echo "Restarting Flannel"
-	systemctl enable flanneld
-	systemctl restart flanneld
-else
-	echo "Stopping Flannel"
-	systemctl disable flanneld
-	systemctl stop flanneld
-	rm -rf /etc/systemd/system/docker.service.d/40-flannel.conf
 fi
 
 echo "Restarting Kubelet"

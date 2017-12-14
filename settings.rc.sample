@@ -59,10 +59,6 @@ export K8S_SERVICE_IP=10.50.0.1
 # This same IP must be configured on all worker nodes to enable DNS service discovery.
 export DNS_SERVICE_IP=10.50.0.10,10.50.0.11,10.50.0.12
 
-# Experimental. Not fully implemented
-# Whether to use weave-net for Kubernetes CNI. If false flanneld will be used instead
-export USE_WEAVE=true
-
 # Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
 export CONTAINER_RUNTIME=docker
 
