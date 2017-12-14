@@ -74,7 +74,7 @@ data:
     }
 
 ---
-apiVersion: /v1beta2
+apiVersion: apps/v1beta2
 kind: DaemonSet
 metadata:
   name: kube-router
