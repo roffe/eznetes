@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Make sure config.json exists to prevent kubelet startup errors
+mkdir -p /etc/docker
 touch /etc/docker/config.json
 
 local TEMPLATE=/etc/docker/daemon.json
