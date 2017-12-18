@@ -4,7 +4,7 @@ local TEMPLATE=/etc/kubernetes/kube-proxy.yaml
 echo "TEMPLATE: $TEMPLATE"
 mkdir -p $(dirname $TEMPLATE)
 cat <<EOF >$TEMPLATE
-apiVersion: componentconfig/v1alpha1
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
 bindAddress: 0.0.0.0
 clientConnection:
