@@ -146,7 +146,7 @@ spec:
   hostNetwork: true
   containers:
   - name: apiserver
-    image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
+    image: ${HYPERKUBE_IMAGE_REPO}/kube-apiserver-amd64:$K8S_VER
     command:
     - /hyperkube
     - apiserver

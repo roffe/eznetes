@@ -36,7 +36,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-scheduler
-    image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
+    image: ${HYPERKUBE_IMAGE_REPO}/kube-scheduler-amd64:$K8S_VER
     command:
     - /hyperkube
     - scheduler

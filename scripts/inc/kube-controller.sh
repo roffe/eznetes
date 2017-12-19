@@ -34,7 +34,7 @@ metadata:
 spec:
   containers:
   - name: kube-controller-manager
-    image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
+    image: ${HYPERKUBE_IMAGE_REPO}/kube-controller-manager-amd64:$K8S_VER
     command:
     - /hyperkube
     - controller-manager
