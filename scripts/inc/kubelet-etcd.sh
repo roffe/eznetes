@@ -34,7 +34,7 @@ cat <<EOF >$TEMPLATE
 Environment=KUBELET_IMAGE_TAG=${K8S_VER}
 Environment="KUBELET_IMAGE_ARGS=--environment=HOME=/root \
   --exec=/kubelet"
-Environment=KUBELET_IMAGE_URL=docker://${HYPERKUBE_IMAGE_REPO}/hyperkube-amd64:$K8S_VER
+Environment=KUBELET_IMAGE_URL=docker://${HYPERKUBE_IMAGE_REPO}/hyperkube-amd64
 Environment="RKT_RUN_ARGS=--insecure-options=image \
   --uuid-file-save=${uuid_file} \
   --volume dns,kind=host,source=/etc/resolv.conf \
