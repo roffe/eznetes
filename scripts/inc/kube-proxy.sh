@@ -140,4 +140,5 @@ spec:
   - hostPath:
       path: /run/xtables.lock
       type: FileOrCreate
+    name: iptableslock
 EOF
