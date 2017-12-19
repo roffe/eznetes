@@ -82,8 +82,7 @@ spec:
   - name: kube-proxy
     image: ${HYPERKUBE_IMAGE_REPO}/kube-proxy-amd64:$K8S_VER
     command:
-    - /hyperkube
-    - proxy
+    - /usr/local/bin/kube-proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --config=/etc/kubernetes/kube-proxy.yaml
     securityContext:

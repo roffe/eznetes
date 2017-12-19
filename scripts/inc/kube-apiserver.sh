@@ -148,8 +148,7 @@ spec:
   - name: apiserver
     image: ${HYPERKUBE_IMAGE_REPO}/kube-apiserver-amd64:$K8S_VER
     command:
-    - /hyperkube
-    - apiserver
+    - /usr/local/bin/kube-apiserver
     - --apiserver-count=$(get_no_apiservers)
     - --bind-address=127.0.0.1
     - --etcd-cafile=/etc/kubernetes/ssl/ca.pem
