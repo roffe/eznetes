@@ -74,7 +74,7 @@ data:
     }
 
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: kube-router
@@ -82,6 +82,10 @@ metadata:
   labels:
     k8s-app: kube-router
 spec:
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       k8s-app: kube-router
@@ -94,7 +98,7 @@ spec:
     spec:
       containers:
       - name: kube-router
-        image: cloudnativelabs/kube-router
+        image: cloudnativelabs/kube-router:v0.0.20
         args: ["--run-router=true", "--run-firewall=true", "--run-service-proxy=true", "--kubeconfig=/var/lib/kube-router/kubeconfig"]
         securityContext:
           privileged: true

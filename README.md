@@ -46,7 +46,6 @@ Also the templates in `manifests/` will need to be manualy patched at this momen
 * Create VM's / Install Physichal machines
 * Install CoreOS & configure basic networking between all the nodes
 * Deploy ETCD (`./deploy.sh etcd <ip> <fqdn>`)
-* Init Flannel settings (`./deploy.sh bootstrap-flannel`)
 * Deploy Masters (`./deploy.sh master <ip> <fqdn>`)
 * Deploy Workers (`./deploy.sh worker <ip> <fqdn>`)
 * Install addons from manifest folder (`./deploy.sh install-addons`)
@@ -64,7 +63,7 @@ Deployment of ETCD can be done in a "one-off" command or you can have `deploy.sh
 This tool provides no support for maintaining ETCD, how to upgrade it or how to debug.  
 Questions regarding ETCD should be directed to the authors or relevant support channels
 
-For the flannel bootstrap & master install to work the ETCD client cert's must be present under `certs/etcd/client/client.pem & client-key.pem` and the root ca in `certs/ca/ca.pem & ca-key.pem`
+For the master install to work the ETCD client cert's must be present under `/etc/certs/etcd/client/client.pem & client-key.pem` and the root ca in `/etc/certs/ca/ca.pem & ca-key.pem`
 
 If you wish to manually deploy ETCD yourself it's recommended to have this script generate the certs and that you keep them in the original location so the deployment functions works as intended
 
@@ -90,17 +89,11 @@ The following command will create a ETCD client cert in the `certs/etcd/client` 
 
 `./deploy.sh cert etcd-client`
 
-## Bootstrap flannel setings once
-
-Will set the podnetwork range for flannel in ETCD, See `inc/flannel.sh`
-
-`./deploy.sh bootstrap-flannel`
-
 ## Deploy K8S master
 
 Repeat for each master, additional masters can be added and removed at any point in time.
 
-A master node consists of: OS, Docker, Flannel, Kubelet, kube-proxy, kube-apiserver, kube-controller-manager & kube-scheduler.
+A master node consists of: OS, Docker, Kubelet, kube-router, kube-apiserver, kube-controller-manager & kube-scheduler.
 
 `./deploy master <ip>  <fqdn or hostname>`
 
@@ -108,7 +101,7 @@ A master node consists of: OS, Docker, Flannel, Kubelet, kube-proxy, kube-apiser
 
 Repeat for each worker, additional workers can be added and removed at any point in time.
 
-A worker node consists of: OS, Docker, Flannel, Kubelet & kube-proxy.
+A worker node consists of: OS, Docker, Kubelet & kube-router.
 
 `./deploy worker <ip>  <fqdn or hostname>`
 
