@@ -33,7 +33,7 @@ iptables:
 ipvs:
   minSyncPeriod: 0s
   scheduler: "rr"
-  syncPeriod: 15s
+  syncPeriod: 45s
 metricsBindAddress: 127.0.0.1:10249
 mode: ipvs
 oomScoreAdj: -999
@@ -80,10 +80,9 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-proxy
-    image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
+    image: ${HYPERKUBE_IMAGE_REPO}/kube-proxy-amd64:$K8S_VER
     command:
-    - /hyperkube
-    - proxy
+    - /usr/local/bin/kube-proxy
     - --master=${CONTROLLER_ENDPOINT}
     - --config=/etc/kubernetes/kube-proxy.yaml
     securityContext:
@@ -116,6 +115,9 @@ spec:
     - mountPath: /lib/modules
       name: lib-modules
       readOnly: true
+    - mountPath: /run/xtables.lock
+      name: iptableslock
+      readOnly: false
   volumes:
   - name: "ssl-certs"
     hostPath:
@@ -135,4 +137,8 @@ spec:
   - hostPath:
       path: /lib/modules
     name: lib-modules
+  - hostPath:
+      path: /run/xtables.lock
+      type: FileOrCreate
+    name: iptableslock
 EOF

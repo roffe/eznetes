@@ -34,10 +34,9 @@ metadata:
 spec:
   containers:
   - name: kube-controller-manager
-    image: ${HYPERKUBE_IMAGE_REPO}:$K8S_VER
+    image: ${HYPERKUBE_IMAGE_REPO}/kube-controller-manager-amd64:$K8S_VER
     command:
-    - /hyperkube
-    - controller-manager
+    - /usr/local/bin/kube-controller-manager
     - --master=https://${ADVERTISE_IP}
     - --leader-elect=true
     - --service-account-private-key-file=/etc/kubernetes/ssl/controller-key.pem
