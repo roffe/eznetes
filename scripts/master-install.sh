@@ -51,7 +51,7 @@ function init_templates() {
 	source inc/docker.sh
 	source inc/rkt.sh
 	source inc/kubelet-master.sh
-	source inc/kube-proxy.sh
+#	source inc/kube-proxy.sh
 	if [ "${USE_WEAVE}" = "false" ]; then
 		source inc/flannel.sh
 	fi
