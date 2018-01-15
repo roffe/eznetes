@@ -46,7 +46,8 @@ function init_templates() {
 	source inc/docker.sh
 	source inc/rkt.sh
 	source inc/kubelet-worker.sh
-#   source inc/kube-proxy.sh
+  # source inc/kube-proxy.sh
+
 }
 
 init_config
