@@ -34,14 +34,14 @@ export K8S_MASTERS=10.0.0.1,10.0.0.2,10.0.0.3
 export CONTROLLER_ENDPOINT=https://k8s-apilb.example.com
 
 # Specify the version (vX.Y.Z) of Kubernetes assets to deploy
-export K8S_VER=v1.9.0
+
+export K8S_VER=v1.9.1
 
 # Hyperkube image repository to use.
 export HYPERKUBE_IMAGE_REPO=gcr.io/google_containers
 
 # The CIDR network to use for pod IPs.
 # Each pod launched in the cluster will be assigned an IP out of this range.
-# Each node will be configured such that these IPs will be routable using the flannel overlay network.
 export POD_NETWORK=10.32.0.0/12
 
 # The CIDR network to use for service cluster IPs.
@@ -58,10 +58,6 @@ export K8S_SERVICE_IP=10.50.0.1
 # This IP must be in the range of the SERVICE_IP_RANGE and cannot be the first IP in the range.
 # This same IP must be configured on all worker nodes to enable DNS service discovery.
 export DNS_SERVICE_IP=10.50.0.10,10.50.0.11,10.50.0.12
-
-# Experimental. Not fully implemented
-# Whether to use weave-net for Kubernetes CNI. If false flanneld will be used instead
-export USE_WEAVE=true
 
 # Determines the container runtime for kubernetes to use. Accepts 'docker' or 'rkt'.
 export CONTAINER_RUNTIME=docker

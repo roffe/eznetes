@@ -108,10 +108,6 @@ if [ -z ${USERNAME} ]; then
 fi
 
 case "${1}" in
-bootstrap-flannel)
-	init_flannel
-	;;
-
 batch-run)
 	batch_run
 	;;

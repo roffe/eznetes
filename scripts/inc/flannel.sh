@@ -39,10 +39,9 @@ ExecStartPre=/usr/bin/ln -sf /etc/flannel/options.env /run/flannel/options.env
 EOF
 
 local TEMPLATE=/etc/cni/net.d/10-flannel.conf
-if [ "${USE_WEAVE}" = "false" ]; then
-	echo "TEMPLATE: $TEMPLATE"
-	mkdir -p $(dirname $TEMPLATE)
-	cat <<EOF >$TEMPLATE
+echo "TEMPLATE: $TEMPLATE"
+mkdir -p $(dirname $TEMPLATE)
+cat <<EOF >$TEMPLATE
 {
     "name": "podnet",
     "type": "flannel",
@@ -51,4 +50,4 @@ if [ "${USE_WEAVE}" = "false" ]; then
     }
 }
 EOF
-fi
+
