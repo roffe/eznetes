@@ -34,15 +34,16 @@ function init_k8s() {
 		sleep 5
 	done
 	echo "Installing Kube-router"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-router --server 127.0.0.1:8989
+	sed -e "s;%POD_NETWORK%;$POD_NETWORK;g" -e "s;%CONTROLLER_ENDPOINT%;$CONTROLLER_ENDPOINT;g" manifests/kube-router/daemonset.tmpl > manifests/kube-router/kube-router.yaml
+	docker run --rm -ti --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-router --server 127.0.0.1:8989
 	echo "Installing Kube-DNS"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989
+	docker run --rm -ti --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kube-dns --server 127.0.0.1:8989
 	echo "Installing Heapster"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/heapster --server 127.0.0.1:8989
+	docker run --rm -ti --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/heapster --server 127.0.0.1:8989
 	echo "Installing Kubernetes-dashboard"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kubernetes-dashboard --server 127.0.0.1:8989
+	docker run --rm -ti --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/kubernetes-dashboard --server 127.0.0.1:8989
 	echo "Creating RBAC roles for nodes automatic TLS handling"
-	docker run --rm --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/approvalcontroller --server 127.0.0.1:8989
+	docker run --rm -ti --net=host -v ${PWD}/manifests:/manifests $HYPERKUBE_IMAGE_REPO:$K8S_VER /hyperkube kubectl apply -f /manifests/approvalcontroller --server 127.0.0.1:8989
 
 	echo "Removing local apiserver"
 	docker stop k8s-bootstrap

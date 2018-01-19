@@ -78,5 +78,5 @@ export OIDC_AUTH=false
 export OIDC_ID=oidc-id
 
 #Url to the webhook service, MUST BE HTTPS, Tested with DEX, Will use the same CA as for Kubernetes
-export OIDC_URL=https://<host>/dex
+export OIDC_URL=https://host/dex
 

@@ -3,54 +3,6 @@ kind: ServiceAccount
 metadata:
   name: kube-router
   namespace: kube-system
----
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: kube-router
-  namespace: kube-system
-rules:
-  - apiGroups:
-    - ""
-    resources:
-      - namespaces
-      - pods
-      - services
-      - nodes
-      - endpoints
-    verbs:
-      - list
-      - get
-      - watch
-  - apiGroups:
-    - "networking.k8s.io"
-    resources:
-      - networkpolicies
-    verbs:
-      - list
-      - get
-      - watch
-  - apiGroups:
-    - extensions
-    resources:
-      - networkpolicies
-    verbs:
-      - get
-      - list
-      - watch
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: kube-router
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: kube-router
-subjects:
-- kind: ServiceAccount
-  name: kube-router
-  namespace: kube-system
 
 ---
 apiVersion: v1
@@ -72,6 +24,25 @@ data:
         "type":"host-local"
       }
     }
+  kubeconfig: |
+    apiVersion: v1
+    kind: Config
+    clusterCIDR: "10.32.0.0/12"
+    clusters:
+    - name: cluster
+      cluster:
+        certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        server: https://k8s-apilb.example.com
+    users:
+    - name: kube-router
+      user:
+        tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    contexts:
+    - context:
+        cluster: cluster
+        user: kube-router
+      name: kube-router-context
+    current-context: kube-router-context
 
 ---
 apiVersion: apps/v1
@@ -95,11 +66,23 @@ spec:
         k8s-app: kube-router
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ''
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9153"
     spec:
+      serviceAccountName: kube-router
       containers:
       - name: kube-router
-        image: cloudnativelabs/kube-router:v0.0.20
-        args: ["--run-router=true", "--run-firewall=true", "--run-service-proxy=true", "--kubeconfig=/var/lib/kube-router/kubeconfig"]
+        image: cloudnativelabs/kube-router
+        args: 
+          - "--metrics-port=9153"
+          - "--run-router=true"
+          - "--run-firewall=true"
+          - "--run-service-proxy=true"
+          - "--kubeconfig=/var/lib/kube-router/kubeconfig"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 250Mi
         securityContext:
           privileged: true
         imagePullPolicy: Always
@@ -115,10 +98,10 @@ spec:
         - name: cni-conf-dir
           mountPath: /etc/cni/net.d
         - name: kubeconfig
-          mountPath: /var/lib/kube-router/kubeconfig
+          mountPath: /var/lib/kube-router
           readOnly: true
       initContainers:
-      - name: install-cni
+      - name: install-settings
         image: busybox
         imagePullPolicy: Always
         command:
@@ -129,12 +112,19 @@ spec:
             TMP=/etc/cni/net.d/.tmp-kuberouter-cfg;
             cp /etc/kube-router/cni-conf.json ${TMP};
             mv ${TMP} /etc/cni/net.d/10-kuberouter.conf;
+          fi;
+          if [ ! -f /var/lib/kube-router/kubeconfig ]; then
+            TMP=/var/lib/kube-router/.tmp-kubeconfig;
+            cp /etc/kube-router/kubeconfig ${TMP};
+            mv ${TMP} /var/lib/kube-router/kubeconfig;
           fi
         volumeMounts:
         - name: cni-conf-dir
           mountPath: /etc/cni/net.d
         - name: kube-router-cfg
           mountPath: /etc/kube-router
+        - name: kubeconfig
+          mountPath: /var/lib/kube-router
       hostNetwork: true
       tolerations:
       - key: CriticalAddonsOnly
@@ -154,4 +144,4 @@ spec:
           name: kube-router-cfg
       - name: kubeconfig
         hostPath:
-          path: /var/lib/kube-router/kubeconfig
+          path: /var/lib/kube-router
