@@ -131,9 +131,9 @@ users:
 
 Kubectl installation [instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-## Manifests folder
+## Manifests
 
-Contains deployments for `heapster`, `kube-dns` & `kubernetes-dashboard`.
+Deployments for [heapster](https://github.com/kubernetes/heapster), [kube-dns](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns), [kubernetes-dashboard](https://github.com/kubernetes/dashboard), [kube-router](https://kube-router.io & [metrics-server](https://github.com/kubernetes-incubator/metrics-server)
 
 `Kube-DNS` deployment differs from the standard way as it's deployed with 3 services and 3 replicas,
 then kublets is configured with 3 DNS servers in `--cluster-dns` for redundancy.
