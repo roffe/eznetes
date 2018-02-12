@@ -55,6 +55,7 @@ spec:
     - --horizontal-pod-autoscaler-use-rest-clients=true
     - --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
     - --kubeconfig=/etc/kubernetes/controller-kubeconfig.yaml
+    - --terminated-pod-gc-threshold=100
     resources:
       requests:
         cpu: 200m
